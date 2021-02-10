@@ -26,6 +26,13 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 	public List<DoctorSchedules> findAll() {
 		return doctorScheduleRepository.findAll();
 	}
+	
+	
+
+	@Override
+	public Optional<DoctorSchedules> findById(int id) {
+		return doctorScheduleRepository.findById(id);
+	}
 
 	@Override
 	public List<DoctorSchedules> findByHosRegNoAndDocRegNo(String hosRegNo, String docRegNo) {
@@ -42,6 +49,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 			Date date, String session) {
 		return doctorScheduleRepository.findByHosRegNoAndDocRegNoAndDateAndSession(hosRegNo, docRegNo, date, session);
 	}
+	
 
 	@Override
 	public ResponseEntity<?> deleteDoctorSchedules(String hosRegNo, String docRegNo, Date date, String session) {

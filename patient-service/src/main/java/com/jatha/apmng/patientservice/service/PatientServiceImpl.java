@@ -17,25 +17,28 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Patient save(Patient patient) {
-		// TODO Auto-generated method stub
 		return patientRepository.save(patient);
 	}
 
 	@Override
 	public List<Patient> findAll() {
-		// TODO Auto-generated method stub
 		return patientRepository.findAll();
 	}
 
 	@Override
 	public Optional<Patient> findById(int id) {
-		// TODO Auto-generated method stub
 		return patientRepository.findById(id);
 	}
 
 	@Override
 	public Optional<Patient> findByNICNumber(String nic) {
-		// TODO Auto-generated method stub
 		return patientRepository.findByNICNumber(nic);
 	}
+
+	@Override
+	public List<Patient> findByPhoneNumber(String phoneNumber) {
+		return patientRepository.findByPhoneNumber(phoneNumber);
+	}
+	
+	
 }

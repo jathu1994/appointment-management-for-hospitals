@@ -36,6 +36,13 @@ public class DoctorScheduleController {
 		return doctorScheduleService.findAll();
 	}
 	
+	@GetMapping(value = "/doctorSchedules/{id}")
+	public Optional<DoctorSchedules> findDoctorSchedulesById(@PathVariable(value="id") int id) {
+		
+		return doctorScheduleService.findById(id);
+		
+	}
+	
 	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}")
 	public List<DoctorSchedules> findByHosRegNoAndDocRegNo(
 			@PathVariable("hosRegNo") String hosRegNo, 

@@ -24,4 +24,6 @@ public interface VisitingDoctorService {
 
 	ResponseEntity<?> deleteVisitingDoctors(String hosRegNo, String docRegNo);
 
+	Optional<VisitingDoctors> findById(int id);
+
 }

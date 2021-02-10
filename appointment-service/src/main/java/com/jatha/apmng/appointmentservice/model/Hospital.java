@@ -64,11 +64,11 @@ public class Hospital implements Serializable {
 	public void setHosEmail(String hosEmail) {
 		this.hosEmail = hosEmail;
 	}
-	@Override
-	public String toString() {
-		return "Hospital [hosRegNo=" + hosRegNo + ", hosName=" + hosName + ", hosType=" + hosType + ", hosAdress="
-				+ hosAdress + ", hosPhoneNumber=" + hosPhoneNumber + ", hosEmail=" + hosEmail + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Hospital [hosRegNo=" + hosRegNo + ", hosName=" + hosName + ", hosType=" + hosType + ", hosAdress="
+//				+ hosAdress + ", hosPhoneNumber=" + hosPhoneNumber + ", hosEmail=" + hosEmail + "]";
+//	}
 	
 	
 	

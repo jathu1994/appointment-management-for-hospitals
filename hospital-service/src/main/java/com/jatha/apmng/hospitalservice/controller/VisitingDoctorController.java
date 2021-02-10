@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jatha.apmng.hospitalservice.model.DoctorSchedules;
 import com.jatha.apmng.hospitalservice.model.VisitingDoctors;
 import com.jatha.apmng.hospitalservice.service.VisitingDoctorService;
 
@@ -30,11 +31,13 @@ public class VisitingDoctorController {
 		return visitingDoctorService.save(visitingDoctors);
     }
 	
-//	@GetMapping("/visitingdoctors")
-//	public List<VisitingDoctors> findAllVisitingDoctors() {
-//		
-//		return visitingDoctorService.findAll();
-//	}
+	@GetMapping(value = "/visitingdoctors/{id}")
+	public Optional<VisitingDoctors> findVisitingDoctorsById(@PathVariable(value="id") int id) {
+		
+		return visitingDoctorService.findById(id);
+		
+	}
+
 	
 	@GetMapping("/visitingdoctors")
 	public List<VisitingDoctors> findAllVisitingDoctors(

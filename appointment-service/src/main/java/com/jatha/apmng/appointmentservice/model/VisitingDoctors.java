@@ -38,12 +38,12 @@ public class VisitingDoctors {
 	public void setHosChanellingFee(double hosChanellingFee) {
 		this.hosChanellingFee = hosChanellingFee;
 	}
-	@Override
-	public String toString() {
-		return "VisitingDoctors [id=" + id + ", docRegNo=" + docRegNo + ", hosRegNo=" + hosRegNo + ", docChanellingFee="
-				+ docChanellingFee + ", hosChanellingFee=" + hosChanellingFee + "]";
-	}
-	
+//	@Override
+//	public String toString() {
+//		return "VisitingDoctors [id=" + id + ", docRegNo=" + docRegNo + ", hosRegNo=" + hosRegNo + ", docChanellingFee="
+//				+ docChanellingFee + ", hosChanellingFee=" + hosChanellingFee + "]";
+//	}
+//	
 	
 
 }

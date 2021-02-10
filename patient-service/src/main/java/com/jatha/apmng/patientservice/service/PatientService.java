@@ -11,5 +11,6 @@ public interface PatientService {
 	List<Patient> findAll();
 	Optional<Patient> findById(int id);
 	Optional<Patient> findByNICNumber(String nic);
+	List<Patient> findByPhoneNumber(String phoneNumber);
 
 }

@@ -43,18 +43,20 @@ public class PatientController {
 	}
 	
 	@RequestMapping(value = "/patients/find",method = RequestMethod.GET)
-	public Optional<Patient> findPatient(@RequestParam(name="nic",required=false) String nic,@RequestParam(name="id",required=false) String id) {
+	public Optional<Patient> findPatientNic(@RequestParam(name="nic",required=false) String nic) {
 		if(nic!=null){
 			return patientService.findByNICNumber(nic);
-			
 		}
-		if(id!=null){
-			
-			int i=Integer.parseInt(id);  
-			return patientService.findById(i);	
-		}
-		
 		return null;
+		
+	}
+	
+	@RequestMapping(value = "/patients/find/phone",method = RequestMethod.GET)
+	public List<Patient> findPatientByPhone(@RequestParam(name="phone",required=false) String phone) {
+		if(phone!=null){
+			return patientService.findByPhoneNumber(phone);
+		}
+		return patientService.findAll();
 		
 	}
 
