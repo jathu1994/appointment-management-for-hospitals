@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jatha.apmng.hospitalservice.model.DoctorSchedules;
 import com.jatha.apmng.hospitalservice.model.VisitingDoctors;
 import com.jatha.apmng.hospitalservice.service.VisitingDoctorService;
 

@@ -27,8 +27,6 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 		return doctorScheduleRepository.findAll();
 	}
 	
-	
-
 	@Override
 	public Optional<DoctorSchedules> findById(int id) {
 		return doctorScheduleRepository.findById(id);
@@ -49,14 +47,26 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 			Date date, String session) {
 		return doctorScheduleRepository.findByHosRegNoAndDocRegNoAndDateAndSession(hosRegNo, docRegNo, date, session);
 	}
-	
 
 	@Override
-	public ResponseEntity<?> deleteDoctorSchedules(String hosRegNo, String docRegNo, Date date, String session) {
+	public ResponseEntity<?> deleteDoctorSchedules(int id) {
+		return doctorScheduleRepository.findById(id).map(doctorSchedule -> {
+			doctorScheduleRepository.delete(doctorSchedule);
+            return ResponseEntity.ok().build();
+        }).orElse(null);
+	}
+
+	@Override
+	public ResponseEntity<?> deleteDoctorSchedulesByResource(String hosRegNo, String docRegNo, Date date,
+			String session) {
 		return doctorScheduleRepository.findByHosRegNoAndDocRegNoAndDateAndSession(hosRegNo, docRegNo, date, session).map(doctorSchedule -> {
 			doctorScheduleRepository.delete(doctorSchedule);
             return ResponseEntity.ok().build();
         }).orElse(null);
 	}
+	
+	
+	
+	
 
 }

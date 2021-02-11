@@ -1,7 +1,5 @@
 package com.jatha.apmng.appointmentservice.model;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +17,12 @@ public class Appointment {
 	
 	String hosRegNo;
 	String docRegNo;
-	String patientId;//patient Id nicw
-	Date sessionDate;
-	String session;
+	String patientNIC;
+	int sessionId;
+	int visitId;
 	String appointmentNumber;
+	String appointmentStatus;
+	
 	public int getId() {
 		return id;
 	}
@@ -41,23 +41,23 @@ public class Appointment {
 	public void setDocRegNo(String docRegNo) {
 		this.docRegNo = docRegNo;
 	}
-	public String getPatientId() {
-		return patientId;
+	public String getPatientNIC() {
+		return patientNIC;
 	}
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
+	public void setPatientNIC(String patientNIC) {
+		this.patientNIC = patientNIC;
 	}
-	public Date getSessionDate() {
-		return sessionDate;
+	public int getSessionId() {
+		return sessionId;
 	}
-	public void setSessionDate(Date sessionDate) {
-		this.sessionDate = sessionDate;
+	public void setSessionId(int sessionId) {
+		this.sessionId = sessionId;
 	}
-	public String getSession() {
-		return session;
+	public int getVisitId() {
+		return visitId;
 	}
-	public void setSession(String session) {
-		this.session = session;
+	public void setVisitId(int visitId) {
+		this.visitId = visitId;
 	}
 	public String getAppointmentNumber() {
 		return appointmentNumber;
@@ -65,6 +65,16 @@ public class Appointment {
 	public void setAppointmentNumber(String appointmentNumber) {
 		this.appointmentNumber = appointmentNumber;
 	}
+	public String getAppointmentStatus() {
+		return appointmentStatus;
+	}
+	public void setAppointmentStatus(String appointmentStatus) {
+		this.appointmentStatus = appointmentStatus;
+	}
+	
+	
+	
+	
 	
 	
 }

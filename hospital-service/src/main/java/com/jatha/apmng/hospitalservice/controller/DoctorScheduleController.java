@@ -43,6 +43,11 @@ public class DoctorScheduleController {
 		
 	}
 	
+	@DeleteMapping("/doctorSchedules/{id}")
+    public ResponseEntity<?> deleteHospital(@PathVariable("id") int id){
+        return doctorScheduleService.deleteDoctorSchedules(id);
+    }
+	
 	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}")
 	public List<DoctorSchedules> findByHosRegNoAndDocRegNo(
 			@PathVariable("hosRegNo") String hosRegNo, 
@@ -72,13 +77,13 @@ public class DoctorScheduleController {
 	}
 	
 	@DeleteMapping("/doctorSchedules/{hosRegNo}/{docRegNo}/{date}/{session}")
-    public ResponseEntity<?> deleteHospital(
+    public ResponseEntity<?> deleteHospitalByResource(
     		@PathVariable("hosRegNo") String hosRegNo, 
 			@PathVariable("docRegNo") String docRegNo, 
 			@PathVariable("date") Date date,
 			@PathVariable("session") String session
     		){
-        return doctorScheduleService.deleteDoctorSchedules(hosRegNo, docRegNo, date, session);
+        return doctorScheduleService.deleteDoctorSchedulesByResource(hosRegNo, docRegNo, date, session);
     }
 
 }

@@ -20,8 +20,12 @@ public interface DoctorScheduleService {
 	
 	Optional<DoctorSchedules> findByHosRegNoAndDocRegNoAndDateAndSession(String hosRegNo, String docRegNo, Date date, String session);
 
-	ResponseEntity<?> deleteDoctorSchedules(String hosRegNo, String docRegNo, Date date, String session);
+	
 
 	Optional<DoctorSchedules> findById(int id);
+
+	ResponseEntity<?> deleteDoctorSchedules(int id);
+
+	ResponseEntity<?> deleteDoctorSchedulesByResource(String hosRegNo, String docRegNo, Date date, String session);
 
 }
