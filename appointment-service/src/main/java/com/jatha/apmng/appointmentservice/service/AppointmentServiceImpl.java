@@ -63,11 +63,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 	@Override
 	public List<Hospital> findByHospitalName(String hosName) {
-		ResponseEntity<Hospital[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/hospitals?hosName="+hosName,Hospital[].class);
+//		ResponseEntity<Hospital[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/hospitals?hosName="+hosName,Hospital[].class);
+		ResponseEntity<Hospital[]> response = restTemplate.getForEntity("http://hospital-service/hosservices/hospitals?hosName="+hosName,Hospital[].class);
 		Hospital[] hospitals = response.getBody();
-		
-//		String response = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
-//                HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 		
 		List<Hospital> list = Arrays.asList(hospitals);
 				
@@ -77,7 +75,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public List<Doctor> findDoctorsByHospital(String hosRegNo) {
 		System.out.println(hosRegNo);
-		ResponseEntity<VisitingDoctors[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/visitingdoctors?hosRegNo="+hosRegNo,VisitingDoctors[].class);
+		ResponseEntity<VisitingDoctors[]> response = restTemplate.getForEntity("http://hospital-service/hosservices/visitingdoctors?hosRegNo="+hosRegNo,VisitingDoctors[].class);
 		VisitingDoctors[] visitingDoctors = response.getBody();
 		
 		System.out.println("++++++++++++++++++++++++++++++++++++++++");
@@ -87,7 +85,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			System.out.println(visitDetail);
 			System.out.println(visitDetail.getDocRegNo());
 			
-			ResponseEntity<Doctor> response2 = restTemplate.getForEntity("http://localhost:9191/docservices/doctors/"+visitDetail.getDocRegNo(),Doctor.class);
+			ResponseEntity<Doctor> response2 = restTemplate.getForEntity("http://doctor-service/docservices/doctors/"+visitDetail.getDocRegNo(),Doctor.class);
 			Doctor doctor = response2.getBody();
 			doctorList.add(doctor);
 			
@@ -99,7 +97,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<DoctorSchedules> findAvailabilityByHosAndDoc(String hosRegNo, String docRegNo) {
-		ResponseEntity<DoctorSchedules[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo,DoctorSchedules[].class);
+		ResponseEntity<DoctorSchedules[]> response = restTemplate.getForEntity("http://hospital-service/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo,DoctorSchedules[].class);
 		DoctorSchedules[] schedules = response.getBody();
 		
 		List<DoctorSchedules> list = Arrays.asList(schedules);
@@ -109,7 +107,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<DoctorSchedules> findAvailabilityByHosAndDocAndDate(String hosRegNo, String docRegNo, String sDate) {
-		ResponseEntity<DoctorSchedules[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo+"/"+sDate,DoctorSchedules[].class);
+		ResponseEntity<DoctorSchedules[]> response = restTemplate.getForEntity("http://hospital-service/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo+"/"+sDate,DoctorSchedules[].class);
 		DoctorSchedules[] schedules = response.getBody();
 		
 		List<DoctorSchedules> list = Arrays.asList(schedules);
@@ -121,7 +119,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public List<DoctorSchedules> findAvailabilityByHosAndDocAndDate(String hosRegNo, String docRegNo, String sDate,
 			String session) {
 		
-		ResponseEntity<DoctorSchedules> response = restTemplate.getForEntity("http://localhost:9193/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo+"/"+sDate+"/"+session,DoctorSchedules.class);
+		ResponseEntity<DoctorSchedules> response = restTemplate.getForEntity("http://hospital-service/hosservices/doctorSchedules/"+hosRegNo+"/"+docRegNo+"/"+sDate+"/"+session,DoctorSchedules.class);
 		DoctorSchedules schedules = response.getBody();
 		
 		List<DoctorSchedules> list = new ArrayList<DoctorSchedules>();
@@ -134,7 +132,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Patient> findPatientById(String id) {
-		ResponseEntity<Patient> response = restTemplate.getForEntity("http://localhost:9192/services/patients/"+id,Patient.class);
+		ResponseEntity<Patient> response = restTemplate.getForEntity("http://patient-service/services/patients/"+id,Patient.class);
 		Patient patient = response.getBody();
 		
 		List<Patient> list = new ArrayList<Patient>();
@@ -145,7 +143,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Patient> findPatientByNic(String nic) {
-		ResponseEntity<Patient> response = restTemplate.getForEntity("http://localhost:9192/services/patients/find?nic="+nic,Patient.class);
+		ResponseEntity<Patient> response = restTemplate.getForEntity("http://patient-service/services/patients/find?nic="+nic,Patient.class);
 		Patient patient = response.getBody();
 		
 		List<Patient> list = new ArrayList<Patient>();
@@ -170,27 +168,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		AppointmentFullDetails ap = new AppointmentFullDetails();
 		
-		ResponseEntity<Patient> responsePatient = restTemplate.getForEntity("http://localhost:9192/services/patients/find?nic="+nic,Patient.class);
+		ResponseEntity<Patient> responsePatient = restTemplate.getForEntity("http://patient-service/services/patients/find?nic="+nic,Patient.class);
 		Patient patient = responsePatient.getBody();
 		ap.setPatient(patient);
 		
-		ResponseEntity<Doctor> responseDoctor = restTemplate.getForEntity("http://localhost:9191/docservices/doctors/"+docRegNo,Doctor.class);
+		ResponseEntity<Doctor> responseDoctor = restTemplate.getForEntity("http://doctor-service/docservices/doctors/"+docRegNo,Doctor.class);
 		Doctor doctor = responseDoctor.getBody();
 		ap.setDoctor(doctor);
 		
-		ResponseEntity<Hospital> responseHospital = restTemplate.getForEntity("http://localhost:9193/hosservices/hospitals/"+hosRegNo,Hospital.class);
+		ResponseEntity<Hospital> responseHospital = restTemplate.getForEntity("http://hospital-service/hosservices/hospitals/"+hosRegNo,Hospital.class);
 		Hospital hospital = responseHospital.getBody();
 		ap.setHospital(hospital);
 		
-		ResponseEntity<DoctorSchedules> responseDoctorSchedules = restTemplate.getForEntity("http://localhost:9193/hosservices/doctorSchedules/"+scheduleId,DoctorSchedules.class);
+		ResponseEntity<DoctorSchedules> responseDoctorSchedules = restTemplate.getForEntity("http://hospital-service/hosservices/doctorSchedules/"+scheduleId,DoctorSchedules.class);
 		DoctorSchedules doctorSchedules = responseDoctorSchedules.getBody();
 		ap.setDoctorSchedules(doctorSchedules);
 		
-		ResponseEntity<Appointment> responseAppointment = restTemplate.getForEntity("http://localhost:9194/aptservice/appointments/"+appointmentId,Appointment.class);
+		ResponseEntity<Appointment> responseAppointment = restTemplate.getForEntity("http://appointment-service/aptservice/appointments/"+appointmentId,Appointment.class);
 		Appointment appointment = responseAppointment.getBody();
 		ap.setAppointment(appointment);
 		
-		ResponseEntity<VisitingDoctors> responseVisitingDoctors = restTemplate.getForEntity("http://localhost:9193/hosservices/visitingdoctors/"+visitId,VisitingDoctors.class);
+		ResponseEntity<VisitingDoctors> responseVisitingDoctors = restTemplate.getForEntity("http://hospital-service/hosservices/visitingdoctors/"+visitId,VisitingDoctors.class);
 		VisitingDoctors visitingDoctors = responseVisitingDoctors.getBody();
 		ap.setVisitingDoctors(visitingDoctors);
 		

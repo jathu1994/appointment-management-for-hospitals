@@ -12,11 +12,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 public class AppointmentServiceApplication {
 	
-//	@Bean
-//	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-//	   return builder.build();
-//	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(AppointmentServiceApplication.class, args);
 	}
