@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,11 +28,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	AppointmentRepository appointmentRepository;
 	
-	@Autowired
-	private RestTemplate restTemplate;
+	@Bean
+	@LoadBalanced
+	RestTemplate getRestTemplate(RestTemplateBuilder builder) {
+		return builder.build();
+	}
 	
-//	@Autowired
-//	AppointmentFullDetails appointmentFullDetails;
+	@Autowired
+	RestTemplate restTemplate;
+	
 
 	@Override
 	public Appointment save(Appointment appointment) {
@@ -58,6 +65,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public List<Hospital> findByHospitalName(String hosName) {
 		ResponseEntity<Hospital[]> response = restTemplate.getForEntity("http://localhost:9193/hosservices/hospitals?hosName="+hosName,Hospital[].class);
 		Hospital[] hospitals = response.getBody();
+		
+//		String response = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
+//                HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 		
 		List<Hospital> list = Arrays.asList(hospitals);
 				
@@ -146,7 +156,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Patient> findPatientByPhone(String phone) {
-		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://localhost:9192/services/patients/find/phone?phone="+phone,Patient[].class);
+		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient/services/patients/find/phone?phone="+phone,Patient[].class);
 		Patient[] patients = response.getBody();
 		
 		List<Patient> list = Arrays.asList(patients);
