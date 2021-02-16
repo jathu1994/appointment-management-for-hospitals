@@ -1,0 +1,204 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+<title>Appointment Service</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/navbar-static/">
+
+<!-- Bootstrap core CSS -->
+<link
+	href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link
+	href="https://getbootstrap.com/docs/4.0/examples/navbar-static/navbar-top.css"
+	rel="stylesheet">
+	
+	<script type="text/javascript" th:src="@{/js/xxx.js}"></script>
+	
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+		<a class="navbar-brand" href="#">Appointment Management</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarCollapse" aria-controls="navbarCollapse"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="#">Home
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">####</a></li>
+				<li class="nav-item"><a class="nav-link disabled" href="#">####</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<main role="main" class="container md">
+		<div class="row">
+			<div class="col-md-6">
+				<form name="create-appointment" th:action="@{/patients}"
+					th:formmethod="POST">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="hospitalName">Hospital Name:</label> <input
+								type="text" class="form-control" id="hospitalName"
+								value="Northern Central">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="hospitalName"> cc</label> <label
+								for="exampleDataList" class="form-label">Datalist
+								example</label> <input class="form-control" list="datalistOptions"
+								id="exampleDataList" placeholder="Type to search hospital...">
+							<datalist id="datalistOptions">
+								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
+								<option value="New York"></option>
+								<option value="Seattle"></option>
+							</datalist>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="patientName">Patient Name:</label> <input type="text"
+								class="form-control" id="patientName">
+						</div>
+						<div class="form-group col-md-6">
+							<input class="form-control" list="datalistOptions"
+								id="exampleDataList" placeholder="Type to search patients...">
+							<datalist id="datalistOptions">
+								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
+								<option value="New York"></option>
+								<option value="Seattle"></option>
+							</datalist>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="doctorName">Doctor Name:</label> <input type="text"
+								class="form-control" id="doctorName">
+						</div>
+						<div class="form-group col-md-6">
+							<input class="form-control" list="datalistOptions"
+								id="exampleDataList" placeholder="Type to search doctor...">
+							<datalist id="datalistOptions">
+								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
+								<option value="New York"></option>
+								<option value="Seattle"></option>
+							</datalist>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="appointmentDate">Appointment Date:</label> <input
+								class="form-control" list="datalistOptions" id="exampleDataList"
+								placeholder="select available date...">
+							<datalist id="datalistOptions">
+								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
+								<option value="New York"></option>
+								<option value="Seattle"></option>
+							</datalist>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="session">Session:</label> <input class="form-control"
+								list="datalistOptions" id="exampleDataList"
+								placeholder="select from listed session...">
+							<datalist id="datalistOptions">
+								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
+								<option value="New York"></option>
+								<option value="Seattle"></option>
+							</datalist>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Book
+						Appointment</button>
+
+					<button type="submit" class="btn btn-primary">Search</button>
+				</form>
+			</div>
+			<div class="jumbotron col-md-6">
+				<div th:unless="${error==null}">
+
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Error Code</th>
+								<th scope="col">Body</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><span th:text="${error.statusCode}"></span></td>
+								<td><span th:text="${error.body}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+
+				</div>
+				<div th:unless="${patients==null}">
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Date</th>
+								<th scope="col">Session</th>
+								<th scope="col">No of Appointment</th>
+								<th scope="col">Expected Arrival</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="patient: ${patients}">
+								<th scope="row">1</th>
+								<td><span th:text="${patient.firstName}"></span></td>
+								<td><span th:text="${patient.lastName}"></span></td>
+								<td><span th:text="${patient.phoneNumber}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+		</div>
+	</main>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+	</script>
+	<script
+		src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+	<script
+		src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+		
+		
+		
+		
+</body>
+</html>

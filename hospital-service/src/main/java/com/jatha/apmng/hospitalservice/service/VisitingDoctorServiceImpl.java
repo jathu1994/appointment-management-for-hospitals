@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.jatha.apmng.hospitalservice.model.ErrorMessage;
+import com.jatha.apmng.hospitalservice.model.ResourceNotFoundException;
 import com.jatha.apmng.hospitalservice.model.VisitingDoctors;
 import com.jatha.apmng.hospitalservice.repository.VisitingDoctorRepository;
 
@@ -54,7 +57,7 @@ public class VisitingDoctorServiceImpl implements VisitingDoctorService {
 		return visitingDoctorRepository.findByHosRegNoAndDocRegNo(hosRegNo, docRegNo).map(visitingDoctor -> {
 			visitingDoctorRepository.delete(visitingDoctor);
             return ResponseEntity.ok().build();
-        }).orElse(null);
+        }).orElseThrow(() -> new ResourceNotFoundException(" not found with id "));
 	}
 	
 	

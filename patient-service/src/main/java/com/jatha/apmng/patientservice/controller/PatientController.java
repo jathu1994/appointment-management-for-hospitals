@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,28 +23,30 @@ public class PatientController {
 	@Autowired
 	PatientService patientService;
 	
-	@RequestMapping(value = "/patients",method = RequestMethod.POST)
+	@PostMapping(value = "/patients")
 	public Patient savePatient(@RequestBody Patient patient) {
 		
 		return patientService.save(patient);
 		
 	}
 	
-	@RequestMapping(value = "/patients",method = RequestMethod.GET)
+	
+	
+	@GetMapping(value = "/patients")
 	public List<Patient> findAllPatient() {
 		
 		return patientService.findAll();
 		
 	}
 	
-	@RequestMapping(value = "/patients/{id}",method = RequestMethod.GET)
+	@GetMapping(value = "/patients/{id}")
 	public Optional<Patient> findPatientById(@PathVariable(value="id") int id) {
 		
 		return patientService.findById(id);
 		
 	}
 	
-	@RequestMapping(value = "/patients/find",method = RequestMethod.GET)
+	@GetMapping(value = "/patients/find")
 	public Optional<Patient> findPatientNic(@RequestParam(name="nic",required=false) String nic) {
 		if(nic!=null){
 			return patientService.findByNICNumber(nic);
@@ -51,7 +55,7 @@ public class PatientController {
 		
 	}
 	
-	@RequestMapping(value = "/patients/find/phone",method = RequestMethod.GET)
+	@GetMapping(value = "/patients/find/phone")
 	public List<Patient> findPatientByPhone(@RequestParam(name="phone",required=false) String phone) {
 		if(phone!=null){
 			return patientService.findByPhoneNumber(phone);

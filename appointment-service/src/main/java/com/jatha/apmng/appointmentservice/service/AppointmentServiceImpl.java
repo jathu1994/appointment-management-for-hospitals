@@ -153,8 +153,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<Patient> findPatientByPhone(String phone) {
-		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient/services/patients/find/phone?phone="+phone,Patient[].class);
+	public List<Patient> findPatientByPhone(String phone){
+		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient-service/services/patients/find/phone?phone="+phone,Patient[].class);
+
 		Patient[] patients = response.getBody();
 		
 		List<Patient> list = Arrays.asList(patients);
