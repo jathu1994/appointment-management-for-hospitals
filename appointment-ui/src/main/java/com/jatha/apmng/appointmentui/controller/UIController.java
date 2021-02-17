@@ -1,5 +1,8 @@
 package com.jatha.apmng.appointmentui.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
@@ -12,16 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.jatha.apmng.appointmentui.model.Hospital;
 import com.jatha.apmng.appointmentui.model.Patient;
 
 @Controller
 public class UIController {
 	
 	
-	@Bean
-	RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
 	
 	@Autowired 
 	RestTemplate restTemplate;

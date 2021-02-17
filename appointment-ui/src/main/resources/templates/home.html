@@ -7,7 +7,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+<!-- <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico"> -->
 
 <title>Appointment Service</title>
 
@@ -23,9 +23,7 @@
 <link
 	href="https://getbootstrap.com/docs/4.0/examples/navbar-static/navbar-top.css"
 	rel="stylesheet">
-	
-	<script type="text/javascript" th:src="@{/js/xxx.js}"></script>
-	
+
 </head>
 
 <body>
@@ -50,78 +48,67 @@
 	</nav>
 
 	<main role="main" class="container md">
+
+
 		<div class="row">
+			<!-- create-appointment  -->
 			<div class="col-md-6">
-				<form name="create-appointment" th:action="@{/patients}"
+				<form name="create-appointment" th:action="@{/aptservice/hospitals}"
 					th:formmethod="POST">
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label for="hospitalName">Hospital Name:</label> <input
-								type="text" class="form-control" id="hospitalName"
-								value="Northern Central">
-						</div>
-						<div class="form-group col-md-6">
-							<label for="hospitalName"> cc</label> <label
-								for="exampleDataList" class="form-label">Datalist
-								example</label> <input class="form-control" list="datalistOptions"
-								id="exampleDataList" placeholder="Type to search hospital...">
-							<datalist id="datalistOptions">
-								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
-								<option value="New York"></option>
-								<option value="Seattle"></option>
-							</datalist>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-md-6">
 							<label for="patientName">Patient Name:</label> <input type="text"
-								class="form-control" id="patientName">
+								class="form-control" id="patientName" disabled>
 						</div>
 						<div class="form-group col-md-6">
-							<input class="form-control" list="datalistOptions"
-								id="exampleDataList" placeholder="Type to search patients...">
-							<datalist id="datalistOptions">
-								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
-								<option value="New York"></option>
-								<option value="Seattle"></option>
+							<label for="patientNIC" class="form-label">Patient NIC:</label> <input
+								class="form-control" list="patientList" id="patientNIC"
+								placeholder="search by name,phone or NIC...">
+							<datalist id="patientList">
 							</datalist>
 						</div>
 
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label for="doctorName">Doctor Name:</label> <input type="text"
-								class="form-control" id="doctorName">
+							<label for="hospitalName">Hospital Name:</label> <input
+								type="text" class="form-control" id="hospitalName" disabled>
 						</div>
 						<div class="form-group col-md-6">
-							<input class="form-control" list="datalistOptions"
-								id="exampleDataList" placeholder="Type to search doctor...">
-							<datalist id="datalistOptions">
-								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
-								<option value="New York"></option>
-								<option value="Seattle"></option>
+							<label for="hospitalRegNo" class="form-label">Hospital
+								Reg No:</label> <input class="form-control" list="hospitalList"
+								id="hospitalRegNo" placeholder="search by name or reg No...">
+							<datalist id="hospitalList">
 							</datalist>
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label for="appointmentDate">Appointment Date:</label> <input
-								class="form-control" list="datalistOptions" id="exampleDataList"
-								placeholder="select available date...">
-							<datalist id="datalistOptions">
-								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
-								<option value="New York"></option>
-								<option value="Seattle"></option>
+							<label for="doctorName">Doctor Name:</label> <input type="text"
+								class="form-control" id="doctorName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="doctorRegNo" class="form-label">Doctor RegNo:</label>
+							<input class="form-control" list="doctorList" id="doctorRegNo"
+								placeholder="serach by name or regNo..." disabled>
+							<datalist id="doctorList">
+							</datalist>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="appointmentDate" class="form-label">Appointment
+								Date:</label> <input class="form-control" list="dateList"
+								id="appointmentDate" placeholder="select from available date..."
+								disabled>
+							<datalist id="dateList">
 							</datalist>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="session">Session:</label> <input class="form-control"
-								list="datalistOptions" id="exampleDataList"
-								placeholder="select from listed session...">
-							<datalist id="datalistOptions">
-								<option value="941623298"><span>jatha </span><span>0759017404</span></option>
-								<option value="New York"></option>
-								<option value="Seattle"></option>
+							<label for="session" class="form-label">Session:</label> <input
+								class="form-control" list="sessionList" id="session"
+								placeholder="select from available session..." disabled>
+							<datalist id="sessionList">
 							</datalist>
 						</div>
 					</div>
@@ -132,7 +119,13 @@
 					<button type="submit" class="btn btn-primary">Search</button>
 				</form>
 			</div>
+			<!-- #create-appointment  -->
+
+
+
 			<div class="jumbotron col-md-6">
+
+				<!-- error table  -->
 				<div th:unless="${error==null}">
 
 
@@ -154,7 +147,10 @@
 
 
 				</div>
-				<div th:unless="${patients==null}">
+
+				<!-- #error table  -->
+
+				<!-- <div th:unless="${patients==null}">
 
 					<table class="table">
 						<thead>
@@ -175,7 +171,11 @@
 						</tbody>
 					</table>
 
-				</div>
+				</div> -->
+				
+				<div id="infoTableSpace"></div>
+
+
 			</div>
 
 		</div>
@@ -184,21 +184,27 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>
-	<script>
+	<!-- 	<script>
 		window.jQuery
 				|| document
 						.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-	</script>
+	</script> -->
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
 		src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
 	<script
 		src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
-		
-		
-		
-		
+
+	<script type="text/javascript" th:src="@{/js/appointment.js}" /></script>
+
+
+
+
 </body>
 </html>

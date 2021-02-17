@@ -55,8 +55,17 @@ public class AppointmentController {
 	/*--------------------------*/
 
 	@GetMapping("/hospitals")
-	public List<Hospital> findByHospitalName(@RequestParam(value = "hosName") String hosName) {
-		return appointmentService.findByHospitalName(hosName);
+	public List<Hospital> findByHospitalName(
+			@RequestParam(value = "hosName",required = false) String hosName,
+			@RequestParam(value = "hosRegNo",required = false) String hosRegNo) {
+		if(hosName!=null) {
+			return appointmentService.findByHospitalName(hosName);	
+		}
+		if(hosRegNo != null) {
+			return appointmentService.findByHospitalRegNo(hosRegNo);
+		}
+		return appointmentService.findAllHospitals();
+		
 	}
 
 	@GetMapping("/hospitals/doctors")
@@ -78,6 +87,20 @@ public class AppointmentController {
 		return appointmentService.findAvailabilityByHosAndDoc(hosRegNo, docRegNo);
 	}
 	
+//	------------------------------------------
+	
+	
+	@GetMapping("/doctors")
+	public List<Doctor> findDoctorByDocRegNo(
+			@RequestParam(value = "docRegNo",required = false) String docRegNo) {
+
+		return appointmentService.findDoctorByDocRegNo(docRegNo);
+		
+	}
+	
+	
+//	------------------------------------------
+	
 	@GetMapping("/patients")
 	public List<Patient> findPatient(
 			@RequestParam(value = "id",required = false) String id,
@@ -92,7 +115,7 @@ public class AppointmentController {
 		if(phone!= null) {
 			return appointmentService.findPatientByPhone(phone);
 		}
-		return null;
+		return appointmentService.findAllPatient();
 	}
 	
 	@GetMapping("/appointments/full")

@@ -21,10 +21,15 @@ public interface AppointmentService {
 	Optional<Appointment> findById(int id);
 	
 	ResponseEntity<?> deleteAppointment(int id);
+	List<Hospital> findAllHospitals();
 
 	List<Hospital> findByHospitalName(String hosName);
+	
+	List<Hospital> findByHospitalRegNo(String hosRegNo);
 
 	List<Doctor> findDoctorsByHospital(String hosRegNo);
+	
+	List<Doctor> findDoctorByDocRegNo(String docRegNo);
 
 	List<DoctorSchedules> findAvailabilityByHosAndDoc(String hosRegNo, String docRegNo);
 
@@ -32,6 +37,8 @@ public interface AppointmentService {
 	
 	List<DoctorSchedules> findAvailabilityByHosAndDocAndDate(String hosRegNo, String docRegNo, String sDate,
 			String session);
+	
+	List<Patient> findAllPatient();
 
 	List<Patient> findPatientById(String id);
 
@@ -41,6 +48,8 @@ public interface AppointmentService {
 
 	AppointmentFullDetails findAppointmentDetails(String nic, String docRegNo, String hosRegNo, String scheduleId,
 			String appointmentId, String visitId);
+
+	
 
 //	Optional<DoctorSchedules> findAvailabilityByHosAndDocAndDate(String hosRegNo, String docRegNo, String sDate,
 //			String session);
