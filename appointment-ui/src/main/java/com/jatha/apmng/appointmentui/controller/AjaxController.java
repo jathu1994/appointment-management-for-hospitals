@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jatha.apmng.appointmentui.model.AppointmentFullDetails;
 import com.jatha.apmng.appointmentui.model.Doctor;
 import com.jatha.apmng.appointmentui.model.DoctorSchedules;
 import com.jatha.apmng.appointmentui.model.Hospital;
@@ -69,17 +67,24 @@ public class AjaxController {
 	}
 
 	@GetMapping("/sessions")
-	public List<DoctorSchedules> loadSessions(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+	public List<DoctorSchedules> loadSessions(
+			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo,
-			@RequestParam(value = "sDate", required = false) Date sDate) {
-
+			@RequestParam(value = "sDate", required = false) Date sDate,
+			@RequestParam(value = "sSession", required = false) String sSession) {
+		
+		if(sSession != null) {
+			return ajaxService.loadSession(hosRegNo, docRegNo, sDate, sSession);	
+		}
 		return ajaxService.loadAllAvailableSessions(hosRegNo, docRegNo, sDate);
 	}
 	
-	@PostMapping("/appointments")
-	public List<AppointmentFullDetails> saveAppointment() {
+	@GetMapping("/visits")
+	public List<VisitingDoctors> loadVisitDetails(
+			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
-		return null;
+		return ajaxService.loadVisitDetailsByHosAndDoc(hosRegNo,docRegNo);
 	}
 	
 	

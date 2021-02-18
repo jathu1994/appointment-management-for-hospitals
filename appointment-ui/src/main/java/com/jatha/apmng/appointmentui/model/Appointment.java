@@ -60,6 +60,14 @@ public class Appointment {
 	public void setAppointmentStatus(String appointmentStatus) {
 		this.appointmentStatus = appointmentStatus;
 	}
+	@Override
+	public String toString() {
+		return "Appointment [id=" + id + ", hosRegNo=" + hosRegNo + ", docRegNo=" + docRegNo + ", patientNIC="
+				+ patientNIC + ", sessionId=" + sessionId + ", visitId=" + visitId + ", appointmentNumber="
+				+ appointmentNumber + ", appointmentStatus=" + appointmentStatus + "]";
+	}
+	
+	
 	
 	
 	

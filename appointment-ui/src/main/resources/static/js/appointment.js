@@ -121,6 +121,15 @@ $("#doctorRegNo").change(function() {
 			$("#doctorName").val(response[0]['firstName']);
 		}
 	});
+	
+	$.ajax({
+		url: "/aptservice/visits?hosRegNo=" + hosRegNo + "&docRegNo=" + docRegNo, success: function(response) {
+			console.log("success");
+			console.log(response);
+			$("#visitId").val('');
+			$("#visitId").val(response[0]['id']);
+		}
+	});
 });
 
 $("#appointmentDate").change(function() {
@@ -146,6 +155,35 @@ $("#appointmentDate").change(function() {
 				$("#session").prop("disabled", false);
 
 			}
+
+		}
+	});
+});
+
+
+$("#session").change(function() {
+
+	var hosRegNo = $("#hospitalRegNo").val();
+	var docRegNo = $("#doctorRegNo").val();
+	var sDate = $("#appointmentDate").val();
+	var sSession = $("#session").val();
+	console.log(hosRegNo);
+	console.log(docRegNo);
+	console.log(sDate);
+	console.log(sSession);
+	console.log("reached");
+	$.ajax({
+		url: "/aptservice/sessions?hosRegNo=" + hosRegNo + "&docRegNo=" + docRegNo + "&sDate=" + sDate + "&sSession=" + sSession, success: function(response) {
+			console.log("success");
+			console.log(response);
+			
+			$("#sessionId").val('');
+			$("#sessionId").val(response[0]['id']);
+			$("#appointmentNumber").val('');
+			$("#appointmentNumber").val(response[0]['totalBookings']+1);
+			$("#appointmentStatus").val('');
+			$("#appointmentStatus").val('active');
+			
 
 		}
 	});

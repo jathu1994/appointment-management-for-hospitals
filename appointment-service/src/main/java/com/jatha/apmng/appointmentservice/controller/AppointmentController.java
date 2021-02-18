@@ -20,6 +20,7 @@ import com.jatha.apmng.appointmentservice.model.Doctor;
 import com.jatha.apmng.appointmentservice.model.DoctorSchedules;
 import com.jatha.apmng.appointmentservice.model.Hospital;
 import com.jatha.apmng.appointmentservice.model.Patient;
+import com.jatha.apmng.appointmentservice.model.VisitingDoctors;
 import com.jatha.apmng.appointmentservice.service.AppointmentService;
 
 @RestController
@@ -31,6 +32,8 @@ public class AppointmentController {
 
 	@PostMapping("/appointments")
 	public Appointment saveAppointment(@RequestBody Appointment appointment) {
+		System.out.println("<<<appointment controller>>>>>>>>");
+		System.out.println(appointment);
 
 		return appointmentService.save(appointment);
 	}
@@ -69,7 +72,12 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/hospitals/doctors")
-	public List<Doctor> findByHospitalRegNo(@RequestParam(value = "hosRegNo") String hosRegNo) {
+	public List<Doctor> findByHospitalRegNo(
+			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
+		if(hosRegNo != null && docRegNo != null) {
+			
+		}
 		return appointmentService.findDoctorsByHospital(hosRegNo);
 	}
 
@@ -100,6 +108,15 @@ public class AppointmentController {
 	
 	
 //	------------------------------------------
+	
+	@GetMapping("/hospitals/visits")
+	public List<VisitingDoctors> findVisitDetailsByHosAndDoc(
+			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
+		
+		System.out.println(hosRegNo+"<<<<<<<<<>>>>>>>>>"+docRegNo);
+		return appointmentService.findVisitDetailsByHosRegNoAndDocRegNo(hosRegNo, docRegNo);
+	}
 	
 	@GetMapping("/patients")
 	public List<Patient> findPatient(

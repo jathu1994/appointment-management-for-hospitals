@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.jatha.apmng.appointmentui.model.Appointment;
 import com.jatha.apmng.appointmentui.model.Doctor;
 import com.jatha.apmng.appointmentui.model.DoctorSchedules;
 import com.jatha.apmng.appointmentui.model.Hospital;
@@ -27,6 +28,14 @@ public interface AjaxService {
 	List<DoctorSchedules> loadAllAvailableDates(String hosRegNo,String docRegNo);
 	
 	List<DoctorSchedules> loadAllAvailableSessions(String hosRegNo,String docRegNo,Date sDate);
+	
+	List<DoctorSchedules> loadSession(String hosRegNo, String docRegNo, Date sDate, String sSession);
+
+	List<VisitingDoctors> loadVisitDetailsByHosAndDoc(String hosRegNo, String docRegNo);
+
+	Appointment saveAppointment(Appointment appointment);
+
+	
 	
 	
 	

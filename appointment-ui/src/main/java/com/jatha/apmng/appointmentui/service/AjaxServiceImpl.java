@@ -1,6 +1,7 @@
 package com.jatha.apmng.appointmentui.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.jatha.apmng.appointmentui.model.Appointment;
 import com.jatha.apmng.appointmentui.model.Doctor;
 import com.jatha.apmng.appointmentui.model.DoctorSchedules;
 import com.jatha.apmng.appointmentui.model.Hospital;
@@ -157,6 +159,57 @@ public class AjaxServiceImpl implements AjaxService {
 		}
 		return list;
 	}
+	
+
+	@Override
+	public List<DoctorSchedules> loadSession(String hosRegNo, String docRegNo, Date sDate, String sSession) {
+		List<DoctorSchedules> list = null;
+		try {
+		ResponseEntity<DoctorSchedules[]> responseEntity = restTemplate.getForEntity("http://localhost:9194/aptservice//hospitals/doctors/availability?hosRegNo="+hosRegNo+"&docRegNo="+docRegNo+"&sDate="+sDate+"&sSession="+sSession,DoctorSchedules[].class);
+		
+		list = Arrays.asList(responseEntity.getBody());
+		
+		}catch(HttpStatusCodeException e){
+			
+		}
+		return list;
+	}
+
+
+
+
+	@Override
+	public List<VisitingDoctors> loadVisitDetailsByHosAndDoc(String hosRegNo, String docRegNo) {
+		List<VisitingDoctors> list = null;
+		try {
+		ResponseEntity<VisitingDoctors[]> responseEntity = restTemplate.getForEntity("http://localhost:9194/aptservice/hospitals/visits?hosRegNo="+hosRegNo+"&docRegNo="+docRegNo,VisitingDoctors[].class);
+		
+		list = Arrays.asList(responseEntity.getBody());
+		
+		}catch(HttpStatusCodeException e){
+			
+		}
+		return list;
+	}
+
+
+
+
+	@Override
+	public Appointment saveAppointment(Appointment appointment) {
+		try {
+		Appointment response = restTemplate.postForObject("http://localhost:9194/aptservice/appointments", appointment, Appointment.class);
+		return response;
+		
+		}catch(HttpStatusCodeException e){
+			
+		}
+		return null;
+	}
+	
+	
+	
+	
 
 
 

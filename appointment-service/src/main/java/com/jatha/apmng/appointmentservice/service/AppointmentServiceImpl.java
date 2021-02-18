@@ -86,7 +86,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Hospital> findByHospitalRegNo(String hosRegNo) {
-		System.out.println("<<<<<<<<<<<<<<<<<<<appointmentserviceimpl>>>>>>>"+hosRegNo);
 		ResponseEntity<Hospital> response = restTemplate.getForEntity("http://hospital-service/hosservices/hospitals/"+hosRegNo,Hospital.class);
 		Hospital hospital = response.getBody();
 		
@@ -99,6 +98,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 				
 		return list;
 	}
+	
+	//-------------------------------------------
 
 	@Override
 	public List<Doctor> findDoctorsByHospital(String hosRegNo) {
@@ -131,6 +132,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		doctorList.add(doctor);
 		return doctorList;
 	}
+	
+	//------------------------------------------
 
 	@Override
 	public List<DoctorSchedules> findAvailabilityByHosAndDoc(String hosRegNo, String docRegNo) {
@@ -165,7 +168,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return list;
 	}
 	
-	//patient
+	//---------------------------------------
 
 	@Override
 	public List<Patient> findPatientById(String id) {
@@ -212,6 +215,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 				
 		return list;
 	}
+	
+	
+	//-------------------------------------
+	
+	@Override
+	public List<VisitingDoctors> findVisitDetailsByHosRegNoAndDocRegNo(String hosRegNo, String docRegNo) {
+		
+		System.out.println(hosRegNo+"<<<<<<<<<appimpl>>>>>>>>>"+docRegNo);
+		ResponseEntity<VisitingDoctors> response = restTemplate.getForEntity("http://hospital-service/hosservices/visitingdoctors/"+hosRegNo+"/"+docRegNo,VisitingDoctors.class);
+
+		VisitingDoctors visitingDoctors = response.getBody();
+		
+		List<VisitingDoctors> list = new ArrayList<VisitingDoctors>();
+		list.add(visitingDoctors);
+				
+		return list;
+	}
+	
+	//-------------------------------
 
 	@Override
 	public AppointmentFullDetails findAppointmentDetails(String nic, String docRegNo, String hosRegNo, String scheduleId,
@@ -246,11 +268,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		return ap;
 	}
+
 	
-	
-	
-	
-	//patient
+
 	
 	
 	
