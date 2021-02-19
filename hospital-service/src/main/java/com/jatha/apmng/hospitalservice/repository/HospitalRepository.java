@@ -15,6 +15,8 @@ public interface HospitalRepository extends JpaRepository<Hospital, String> {
 	
 	List<Hospital> findByHosNameIgnoreCaseContaining(String hosName);
 	
+//	save delete*******************
+	
 	
 
 }

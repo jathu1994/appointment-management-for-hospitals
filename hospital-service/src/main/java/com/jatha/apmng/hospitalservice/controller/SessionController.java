@@ -19,7 +19,7 @@ import com.jatha.apmng.hospitalservice.service.DoctorScheduleService;
 
 @RestController
 @RequestMapping(value = "/hosservices")
-public class DoctorScheduleController {
+public class SessionController {
 	
 	@Autowired
 	DoctorScheduleService doctorScheduleService;

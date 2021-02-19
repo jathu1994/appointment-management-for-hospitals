@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,7 @@ public class PatientController {
 	PatientService patientService;
 	
 	@PostMapping(value = "/patients")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 	public Patient savePatient(@RequestBody Patient patient) {
 		
 		return patientService.save(patient);
@@ -31,15 +34,17 @@ public class PatientController {
 	}
 	
 	
-	
 	@GetMapping(value = "/patients")
+	@PreAuthorize("hasRole('ROLE_admin')")
 	public List<Patient> findAllPatient() {
 		
 		return patientService.findAll();
 		
 	}
 	
+	
 	@GetMapping(value = "/patients/{id}")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital')")
 	public Optional<Patient> findPatientById(@PathVariable(value="id") int id) {
 		
 		return patientService.findById(id);
@@ -63,5 +68,12 @@ public class PatientController {
 		return patientService.findAll();
 		
 	}
+	
+	
+	@DeleteMapping("/patients/{nic}")
+	@PreAuthorize("hasRole('ROLE_admin')")
+    public ResponseEntity<?> deletePatient(@PathVariable("nic") String nic) {
+        return patientService.deletePatient(nic);
+    }
 
 }

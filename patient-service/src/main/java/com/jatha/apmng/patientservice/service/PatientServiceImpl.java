@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jatha.apmng.patientservice.exceptions.PatientNotFoundException;
@@ -25,12 +26,11 @@ public class PatientServiceImpl implements PatientService {
 	}
 	
 	
-//	only admin
 	@Override
 	public List<Patient> findAll() {
 		return patientRepository.findAll();
 	}
-//hospital
+	
 	@Override
 	public Optional<Patient> findById(int id) {
 		return patientRepository.findById(id);
@@ -50,6 +50,14 @@ public class PatientServiceImpl implements PatientService {
 		throw new PatientNotFoundException("no patient records found for provided phone-number\n recheck the phone number \n or try with other search options\n");
 		}
 		return list;
+	}
+	
+	@Override
+	public ResponseEntity<?> deletePatient(String nic) {
+		return patientRepository.findByNICNumber(nic).map(patient -> {
+			patientRepository.delete(patient);
+            return ResponseEntity.ok().build();
+        }).orElse(null);
 	}
 	
 	
