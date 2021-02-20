@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -122,7 +123,8 @@ public class AppointmentController {
 	public List<Patient> findPatient(
 			@RequestParam(value = "id",required = false) String id,
 			@RequestParam(value = "nic", required = false) String nic,
-			@RequestParam(value = "phone", required = false) String phone) {
+			@RequestParam(value = "phone", required = false) String phone,
+			@RequestHeader("Authorization") String token) {
 		if (id != null) {
 			return appointmentService.findPatientById(id);
 		}
@@ -132,7 +134,7 @@ public class AppointmentController {
 		if(phone!= null) {
 			return appointmentService.findPatientByPhone(phone);
 		}
-		return appointmentService.findAllPatient();
+		return appointmentService.findAllPatient(token);
 	}
 	
 	@GetMapping("/appointments/full")

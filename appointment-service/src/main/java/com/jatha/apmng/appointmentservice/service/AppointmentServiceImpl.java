@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -206,9 +209,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 
 	@Override
-	public List<Patient> findAllPatient() {
-		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient-service/services/patients",Patient[].class);
-
+	public List<Patient> findAllPatient(String token) {
+		
+		HttpHeaders httpHeaders =  new HttpHeaders();
+		httpHeaders.add("Authorization", token);
+		
+		HttpEntity<Patient> request = new HttpEntity<>(httpHeaders);
+		
+//		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient-service/services/patients",Patient[].class);
+		ResponseEntity<Patient[]> response = restTemplate.exchange("http://patient-service/services/patients",HttpMethod.GET, request, Patient[].class);
 		Patient[] patients = response.getBody();
 		
 		List<Patient> list = Arrays.asList(patients);
