@@ -35,7 +35,7 @@ public class PatientController {
 	
 	
 	@GetMapping(value = "/patients")
-	@PreAuthorize("hasRole('ROLE_admin')")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital')")
 	public List<Patient> findAllPatient() {
 		
 		return patientService.findAll();
@@ -52,6 +52,7 @@ public class PatientController {
 	}
 	
 	@GetMapping(value = "/patients/find")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')") 
 	public Optional<Patient> findPatientNic(@RequestParam(name="nic",required=false) String nic) {
 		if(nic!=null){
 			return patientService.findByNICNumber(nic);
@@ -61,6 +62,7 @@ public class PatientController {
 	}
 	
 	@GetMapping(value = "/patients/find/phone")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital')")
 	public List<Patient> findPatientByPhone(@RequestParam(name="phone",required=false) String phone) {
 		if(phone!=null){
 			return patientService.findByPhoneNumber(phone);
