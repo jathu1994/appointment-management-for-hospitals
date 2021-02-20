@@ -1,17 +1,19 @@
 package com.jatha.apmng.appointmentui.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.jatha.apmng.appointmentui.config.AccessToken;
 import com.jatha.apmng.appointmentui.model.Appointment;
 import com.jatha.apmng.appointmentui.model.Doctor;
 import com.jatha.apmng.appointmentui.model.DoctorSchedules;
@@ -21,10 +23,12 @@ import com.jatha.apmng.appointmentui.model.VisitingDoctors;
 
 
 @Service
-public class AjaxServiceImpl implements AjaxService {
-	
+public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired 
 	RestTemplate restTemplate;
+	
+	@Autowired 
+	AccessToken accessToken;
 	
 	
 	@Override
@@ -65,10 +69,16 @@ public class AjaxServiceImpl implements AjaxService {
 
 	@Override
 	public List<Patient> loadAllPatients() {
+		
+		HttpHeaders httpHeaders =  new HttpHeaders();
+		httpHeaders.add("Authorization", accessToken.getAccessToken());
+		
+		HttpEntity<Patient> request = new HttpEntity<>(httpHeaders);
+		
 		List<Patient> list = null;
 		try {
-		ResponseEntity<Patient[]> responseEntity = restTemplate.getForEntity("http://localhost:9194/aptservice/patients",Patient[].class);
-		
+//		ResponseEntity<Patient[]> responseEntity = restTemplate.getForEntity("http://localhost:9194/aptservice/patients",Patient[].class);
+		ResponseEntity<Patient[]> responseEntity = restTemplate.exchange("http://localhost:9194/aptservice/patients",HttpMethod.GET, request, Patient[].class);
 		list = Arrays.asList(responseEntity.getBody());
 		
 		}catch(HttpStatusCodeException e){

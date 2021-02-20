@@ -14,32 +14,32 @@ import com.jatha.apmng.appointmentui.model.DoctorSchedules;
 import com.jatha.apmng.appointmentui.model.Hospital;
 import com.jatha.apmng.appointmentui.model.Patient;
 import com.jatha.apmng.appointmentui.model.VisitingDoctors;
-import com.jatha.apmng.appointmentui.service.AjaxService;
+import com.jatha.apmng.appointmentui.service.AppointmentService;
 
 @RestController
 @RequestMapping("/aptservice")
-public class AjaxController {
+public class AppointmentController {
 
 	@Autowired
-	AjaxService ajaxService;
+	AppointmentService appointmentService;
 
 	@GetMapping("/hospitals")
 	public List<Hospital> loadHospitals(
 			@RequestParam(value = "hosRegNo", required = false) String hosRegNo) {
 		if (hosRegNo != null) {
-			return ajaxService.loadHospitalByRegNo(hosRegNo);
+			return appointmentService.loadHospitalByRegNo(hosRegNo);
 		}
-		return ajaxService.loadAllHospitals();
+		return appointmentService.loadAllHospitals();
 	}
 
 	@GetMapping("/patients")
 	public List<Patient> loadPatients(@RequestParam(value = "NICNumber", required = false) String NICNumber) {
 
 		if (NICNumber != null) {
-			return ajaxService.loadPatientByNic(NICNumber);
+			return appointmentService.loadPatientByNic(NICNumber);
 		}
 
-		return ajaxService.loadAllPatients();
+		return appointmentService.loadAllPatients();
 	}
 
 	@GetMapping("/doctors")
@@ -48,12 +48,12 @@ public class AjaxController {
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
 		if (hosRegNo != null) {
-			return ajaxService.loadAllDoctorsByHospital(hosRegNo);
+			return appointmentService.loadAllDoctorsByHospital(hosRegNo);
 
 		}
 		
 		if (docRegNo != null) {
-			return ajaxService.loadADoctorByRegNo(docRegNo);
+			return appointmentService.loadADoctorByRegNo(docRegNo);
 
 		}
 		return null;
@@ -63,7 +63,7 @@ public class AjaxController {
 	public List<DoctorSchedules> loadSessionDates(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
-		return ajaxService.loadAllAvailableDates(hosRegNo, docRegNo);
+		return appointmentService.loadAllAvailableDates(hosRegNo, docRegNo);
 	}
 
 	@GetMapping("/sessions")
@@ -74,9 +74,9 @@ public class AjaxController {
 			@RequestParam(value = "sSession", required = false) String sSession) {
 		
 		if(sSession != null) {
-			return ajaxService.loadSession(hosRegNo, docRegNo, sDate, sSession);	
+			return appointmentService.loadSession(hosRegNo, docRegNo, sDate, sSession);	
 		}
-		return ajaxService.loadAllAvailableSessions(hosRegNo, docRegNo, sDate);
+		return appointmentService.loadAllAvailableSessions(hosRegNo, docRegNo, sDate);
 	}
 	
 	@GetMapping("/visits")
@@ -84,7 +84,7 @@ public class AjaxController {
 			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
-		return ajaxService.loadVisitDetailsByHosAndDoc(hosRegNo,docRegNo);
+		return appointmentService.loadVisitDetailsByHosAndDoc(hosRegNo,docRegNo);
 	}
 	
 	

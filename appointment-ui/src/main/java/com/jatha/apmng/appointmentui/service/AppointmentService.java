@@ -11,7 +11,7 @@ import com.jatha.apmng.appointmentui.model.Hospital;
 import com.jatha.apmng.appointmentui.model.Patient;
 import com.jatha.apmng.appointmentui.model.VisitingDoctors;
 
-public interface AjaxService {
+public interface AppointmentService {
 
 	List<Hospital> loadAllHospitals();
 	

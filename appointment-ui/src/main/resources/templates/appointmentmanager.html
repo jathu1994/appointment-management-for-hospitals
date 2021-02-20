@@ -1,0 +1,219 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico"> -->
+
+<title>Appointment Service</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/navbar-static/">
+
+<!-- Bootstrap core CSS -->
+<link
+	href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link
+	href="https://getbootstrap.com/docs/4.0/examples/navbar-static/navbar-top.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+		<a class="navbar-brand" href="#">Appointment Management</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarCollapse" aria-controls="navbarCollapse"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#">Appointments
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Hospitals</a></li>
+				<li class="nav-item"><a class="nav-link disabled" href="#">Patients</a>
+				</li>
+				<li class="nav-item"><a class="nav-link disabled" href="#">Doctors</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<main role="main" class="container md">
+
+
+		<div class="row">
+			<!-- create-appointment  -->
+			<div class="col-md-6">
+				<form name="create-appointment" th:action="@{/}"
+					th:object="${appointment}" method="post">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="patientName">Patient Name:</label> <input type="text"
+								class="form-control" id="patientName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="patientNIC" class="form-label">Patient NIC:</label> <input
+								class="form-control" list="patientList" id="patientNIC"
+								placeholder="search by name,phone or NIC..."
+								th:field="*{patientNIC}">
+							<datalist id="patientList">
+							</datalist>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="hospitalName">Hospital Name:</label> <input
+								type="text" class="form-control" id="hospitalName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="hospitalRegNo" class="form-label">Hospital
+								Reg No:</label> <input class="form-control" list="hospitalList"
+								id="hospitalRegNo" placeholder="search by name or reg No..."
+								th:field="*{hosRegNo}">
+							<datalist id="hospitalList">
+							</datalist>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="doctorName">Doctor Name:</label> <input type="text"
+								class="form-control" id="doctorName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="doctorRegNo" class="form-label">Doctor RegNo:</label>
+							<input class="form-control" list="doctorList" id="doctorRegNo"
+								placeholder="serach by name or regNo..." disabled
+								th:field="*{docRegNo}">
+							<datalist id="doctorList">
+							</datalist>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="appointmentDate" class="form-label">Appointment
+								Date:</label> <input class="form-control" list="dateList"
+								id="appointmentDate" placeholder="select from available date..."
+								disabled>
+							<datalist id="dateList">
+							</datalist>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="session" class="form-label">Session:</label> <input
+								class="form-control" list="sessionList" id="session"
+								placeholder="select from available session..." disabled>
+							<datalist id="sessionList">
+							</datalist>
+						</div>
+						<input class="form-control" id="sessionId" th:field="*{sessionId}">
+						<input class="form-control" id="visitId" th:field="*{visitId}">
+						<input class="form-control" id="appointmentNumber"
+							th:field="*{appointmentNumber}"> <input
+							class="form-control" id="appointmentStatus"
+							th:field="*{appointmentStatus}">
+					</div>
+					<button type="submit" class="btn btn-primary">Book
+						Appointment</button>
+				</form>
+			</div>
+			<!-- #create-appointment  -->
+
+
+
+			<div class="jumbotron col-md-6">
+
+				<!-- error table  -->
+				<div th:unless="${error==null}">
+
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Error Code</th>
+								<th scope="col">Body</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><span th:text="${error.statusCode}"></span></td>
+								<td><span th:text="${error.body}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+
+				</div>
+
+				<!-- #error table  -->
+
+				<!-- <div th:unless="${patients==null}">
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Date</th>
+								<th scope="col">Session</th>
+								<th scope="col">No of Appointment</th>
+								<th scope="col">Expected Arrival</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="patient: ${patients}">
+								<th scope="row">1</th>
+								<td><span th:text="${patient.firstName}"></span></td>
+								<td><span th:text="${patient.lastName}"></span></td>
+								<td><span th:text="${patient.phoneNumber}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div> -->
+
+				<div id="infoTableSpace"></div>
+
+
+			</div>
+
+		</div>
+	</main>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<!-- 	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+	</script> -->
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+	<script
+		src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" th:src="@{/js/appointment.js}" /></script>
+
+
+
+
+</body>
+</html>
