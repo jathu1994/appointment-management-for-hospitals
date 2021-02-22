@@ -106,14 +106,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Doctor> findDoctorsByHospital(String hosRegNo) {
-		System.out.println(hosRegNo);
 		ResponseEntity<VisitingDoctors[]> response = restTemplate.getForEntity("http://hospital-service/hosservices/visitingdoctors?hosRegNo="+hosRegNo,VisitingDoctors[].class);
 		VisitingDoctors[] visitingDoctors = response.getBody();
 		
 		List<Doctor> doctorList = new ArrayList<Doctor>();
 		for(VisitingDoctors visitDetail : visitingDoctors) {
-			System.out.println(visitDetail);
-			System.out.println(visitDetail.getDocRegNo());
 			
 			ResponseEntity<Doctor> response2 = restTemplate.getForEntity("http://doctor-service/docservices/doctors/"+visitDetail.getDocRegNo(),Doctor.class);
 			Doctor doctor = response2.getBody();
@@ -209,15 +206,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 
 	@Override
-	public List<Patient> findAllPatient(String token) {
+	public List<Patient> findAllPatient() {
 		
-		HttpHeaders httpHeaders =  new HttpHeaders();
-		httpHeaders.add("Authorization", token);
+//		HttpHeaders httpHeaders =  new HttpHeaders();
+//		httpHeaders.add("Authorization", token);
 		
-		HttpEntity<Patient> request = new HttpEntity<>(httpHeaders);
+//		HttpEntity<Patient> request = new HttpEntity<>(httpHeaders);
 		
-//		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient-service/services/patients",Patient[].class);
-		ResponseEntity<Patient[]> response = restTemplate.exchange("http://patient-service/services/patients",HttpMethod.GET, request, Patient[].class);
+		ResponseEntity<Patient[]> response = restTemplate.getForEntity("http://patient-service/services/patients",Patient[].class);
+//		ResponseEntity<Patient[]> response = restTemplate.exchange("http://patient-service/services/patients",HttpMethod.GET, request, Patient[].class);
 		Patient[] patients = response.getBody();
 		
 		List<Patient> list = Arrays.asList(patients);
@@ -231,7 +228,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public List<VisitingDoctors> findVisitDetailsByHosRegNoAndDocRegNo(String hosRegNo, String docRegNo) {
 		
-		System.out.println(hosRegNo+"<<<<<<<<<appimpl>>>>>>>>>"+docRegNo);
 		ResponseEntity<VisitingDoctors> response = restTemplate.getForEntity("http://hospital-service/hosservices/visitingdoctors/"+hosRegNo+"/"+docRegNo,VisitingDoctors.class);
 
 		VisitingDoctors visitingDoctors = response.getBody();

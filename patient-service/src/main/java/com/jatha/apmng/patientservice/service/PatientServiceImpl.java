@@ -45,7 +45,6 @@ public class PatientServiceImpl implements PatientService {
 	public List<Patient> findByPhoneNumber(String phoneNumber)  {
 		
 		List<Patient> list = patientRepository.findByPhoneNumber(phoneNumber);
-		System.out.println(list.size()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		if(list.size()==0) {
 		throw new PatientNotFoundException("no patient records found for provided phone-number\n recheck the phone number \n or try with other search options\n");
 		}

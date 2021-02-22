@@ -42,7 +42,7 @@ public interface AppointmentService {
 	
 	List<VisitingDoctors> findVisitDetailsByHosRegNoAndDocRegNo(String hosRegNo,String docRegNo);
 	
-	List<Patient> findAllPatient(String token);
+	List<Patient> findAllPatient();
 
 	List<Patient> findPatientById(String id);
 

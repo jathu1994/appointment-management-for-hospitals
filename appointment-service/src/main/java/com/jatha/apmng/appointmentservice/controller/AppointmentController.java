@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,14 +33,14 @@ public class AppointmentController {
 	AppointmentService appointmentService;
 
 	@PostMapping("/appointments")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public Appointment saveAppointment(@RequestBody Appointment appointment) {
-		System.out.println("<<<appointment controller>>>>>>>>");
-		System.out.println(appointment);
 
 		return appointmentService.save(appointment);
 	}
 
 	@GetMapping("/appointments")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital')")
 	public List<Appointment> findAllAppointments() {
 
 		return appointmentService.findAll();
@@ -47,11 +48,13 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/appointments/{id}")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public Optional<Appointment> findById(@PathVariable("id") int id) {
 		return appointmentService.findById(id);
 	}
 
 	@DeleteMapping("/appointments/{id}")
+	@PreAuthorize("hasRole('ROLE_admin')")
 	public ResponseEntity<?> deleteAppointment(@PathVariable("id") int id) {
 		return appointmentService.deleteAppointment(id);
 	}
@@ -59,6 +62,7 @@ public class AppointmentController {
 	/*--------------------------*/
 
 	@GetMapping("/hospitals")
+	@PreAuthorize("hasRole('ROLE_admin')")
 	public List<Hospital> findByHospitalName(
 			@RequestParam(value = "hosName",required = false) String hosName,
 			@RequestParam(value = "hosRegNo",required = false) String hosRegNo) {
@@ -73,6 +77,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/hospitals/doctors")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public List<Doctor> findByHospitalRegNo(
 			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
@@ -83,6 +88,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/hospitals/doctors/availability")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public List<DoctorSchedules> findAvailabilityByHosAndDoc(@RequestParam(value = "hosRegNo") String hosRegNo,
 			@RequestParam(value = "docRegNo") String docRegNo,
 			@RequestParam(value = "sDate", required = false) String sDate,
@@ -100,6 +106,7 @@ public class AppointmentController {
 	
 	
 	@GetMapping("/doctors")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public List<Doctor> findDoctorByDocRegNo(
 			@RequestParam(value = "docRegNo",required = false) String docRegNo) {
 
@@ -111,20 +118,19 @@ public class AppointmentController {
 //	------------------------------------------
 	
 	@GetMapping("/hospitals/visits")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public List<VisitingDoctors> findVisitDetailsByHosAndDoc(
 			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
-		
-		System.out.println(hosRegNo+"<<<<<<<<<>>>>>>>>>"+docRegNo);
 		return appointmentService.findVisitDetailsByHosRegNoAndDocRegNo(hosRegNo, docRegNo);
 	}
 	
 	@GetMapping("/patients")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public List<Patient> findPatient(
 			@RequestParam(value = "id",required = false) String id,
 			@RequestParam(value = "nic", required = false) String nic,
-			@RequestParam(value = "phone", required = false) String phone,
-			@RequestHeader("Authorization") String token) {
+			@RequestParam(value = "phone", required = false) String phone) {
 		if (id != null) {
 			return appointmentService.findPatientById(id);
 		}
@@ -134,10 +140,11 @@ public class AppointmentController {
 		if(phone!= null) {
 			return appointmentService.findPatientByPhone(phone);
 		}
-		return appointmentService.findAllPatient(token);
+		return appointmentService.findAllPatient();
 	}
 	
 	@GetMapping("/appointments/full")
+	@PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_hospital') or hasRole('ROLE_patient')")
 	public AppointmentFullDetails findAppointmentDetails(
 			@RequestParam(value = "patientNic") String nic,
 			@RequestParam(value = "docRegNo") String docRegNo,
