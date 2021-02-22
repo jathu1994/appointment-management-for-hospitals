@@ -25,7 +25,7 @@ public class AppointmentUiApplication extends WebSecurityConfigurerAdapter {
 		.antMatchers("/")
 		.permitAll()
 		.anyRequest()
-		.authenticated().and().httpBasic().disable();
+		.authenticated();
 	}
 	
 

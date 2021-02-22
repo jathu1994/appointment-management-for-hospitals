@@ -16,13 +16,12 @@ public class UIController {
 	@Autowired
 	AppointmentService appointmentService;
 
-	
 	@GetMapping("/")
 	public String loadHome() {
 		return "home";
 
 	}
-	
+
 	@GetMapping("/appointment")
 	public String loadAppointmentManager(Model model) {
 		model.addAttribute("appointment", new Appointment());

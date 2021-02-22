@@ -37,8 +37,8 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-				<li class="nav-item active"><a class="nav-link" href="#">Appointments
+				<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+				<li class="nav-item active"><a class="nav-link" href="/appointment">Appointments
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Hospitals</a></li>
@@ -54,9 +54,9 @@
 
 
 		<div class="row">
-			<!-- create-appointment  -->
+			<!-- create-appointment begin  -->
 			<div class="col-md-6">
-				<form name="create-appointment" th:action="@{/}"
+				<form name="create-appointment" th:action="@{/appointment}"
 					th:object="${appointment}" method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
@@ -117,18 +117,16 @@
 							<datalist id="sessionList">
 							</datalist>
 						</div>
-						<input class="form-control" id="sessionId" th:field="*{sessionId}">
-						<input class="form-control" id="visitId" th:field="*{visitId}">
-						<input class="form-control" id="appointmentNumber"
-							th:field="*{appointmentNumber}"> <input
-							class="form-control" id="appointmentStatus"
-							th:field="*{appointmentStatus}">
+						<input class="form-control" id="sessionId" th:field="*{sessionId}" type="hidden">
+						<input class="form-control" id="visitId" th:field="*{visitId}" type="hidden">
+						<input class="form-control" id="appointmentNumber" th:field="*{appointmentNumber}" type="hidden"> 
+						<input class="form-control" id="appointmentStatus" th:field="*{appointmentStatus}" type="hidden">
 					</div>
-					<button type="submit" class="btn btn-primary">Book
+					<button type="submit" class="btn btn-primary" disabled id="btnBookAppointment">Book
 						Appointment</button>
 				</form>
 			</div>
-			<!-- #create-appointment  -->
+			<!-- create-appointment end  -->
 
 
 
@@ -158,29 +156,6 @@
 				</div>
 
 				<!-- #error table  -->
-
-				<!-- <div th:unless="${patients==null}">
-
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Date</th>
-								<th scope="col">Session</th>
-								<th scope="col">No of Appointment</th>
-								<th scope="col">Expected Arrival</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="patient: ${patients}">
-								<th scope="row">1</th>
-								<td><span th:text="${patient.firstName}"></span></td>
-								<td><span th:text="${patient.lastName}"></span></td>
-								<td><span th:text="${patient.phoneNumber}"></span></td>
-							</tr>
-						</tbody>
-					</table>
-
-				</div> -->
 
 				<div id="infoTableSpace"></div>
 

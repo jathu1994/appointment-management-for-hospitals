@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,16 +25,20 @@ public class AppointmentController {
 	AppointmentService appointmentService;
 
 	@GetMapping("/hospitals")
-	public List<Hospital> loadHospitals(
-			@RequestParam(value = "hosRegNo", required = false) String hosRegNo) {
+	public ResponseEntity<?> loadHospitals(@RequestParam(value = "hosRegNo", required = false) String hosRegNo) {
 		if (hosRegNo != null) {
 			return appointmentService.loadHospitalByRegNo(hosRegNo);
 		}
-		return appointmentService.loadAllHospitals();
+
+		ResponseEntity<?> re = appointmentService.loadAllHospitals();
+		System.out.println(re.getStatusCodeValue());
+		System.out.println(re.getStatusCode());
+		System.out.println(re.getBody().toString());
+		return re;
 	}
 
 	@GetMapping("/patients")
-	public List<Patient> loadPatients(@RequestParam(value = "NICNumber", required = false) String NICNumber) {
+	public ResponseEntity<?> loadPatients(@RequestParam(value = "NICNumber", required = false) String NICNumber) {
 
 		if (NICNumber != null) {
 			return appointmentService.loadPatientByNic(NICNumber);
@@ -43,15 +48,14 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/doctors")
-	public List<Doctor> loadDoctors(
-			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+	public ResponseEntity<?> loadDoctors(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
 		if (hosRegNo != null) {
 			return appointmentService.loadAllDoctorsByHospital(hosRegNo);
 
 		}
-		
+
 		if (docRegNo != null) {
 			return appointmentService.loadADoctorByRegNo(docRegNo);
 
@@ -60,33 +64,29 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/sessionDates")
-	public List<DoctorSchedules> loadSessionDates(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+	public ResponseEntity<?> loadSessionDates(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
 		return appointmentService.loadAllAvailableDates(hosRegNo, docRegNo);
 	}
 
 	@GetMapping("/sessions")
-	public List<DoctorSchedules> loadSessions(
-			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+	public ResponseEntity<?> loadSessions(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo,
 			@RequestParam(value = "sDate", required = false) Date sDate,
 			@RequestParam(value = "sSession", required = false) String sSession) {
-		
-		if(sSession != null) {
-			return appointmentService.loadSession(hosRegNo, docRegNo, sDate, sSession);	
+
+		if (sSession != null) {
+			return appointmentService.loadSession(hosRegNo, docRegNo, sDate, sSession);
 		}
 		return appointmentService.loadAllAvailableSessions(hosRegNo, docRegNo, sDate);
 	}
-	
+
 	@GetMapping("/visits")
-	public List<VisitingDoctors> loadVisitDetails(
-			@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
+	public ResponseEntity<?> loadVisitDetails(@RequestParam(value = "hosRegNo", required = false) String hosRegNo,
 			@RequestParam(value = "docRegNo", required = false) String docRegNo) {
 
-		return appointmentService.loadVisitDetailsByHosAndDoc(hosRegNo,docRegNo);
+		return appointmentService.loadVisitDetailsByHosAndDoc(hosRegNo, docRegNo);
 	}
-	
-	
 
 }
