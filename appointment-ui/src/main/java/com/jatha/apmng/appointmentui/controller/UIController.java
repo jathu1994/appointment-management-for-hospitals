@@ -21,6 +21,11 @@ public class UIController {
 		return "home";
 
 	}
+	@GetMapping("/navbar")
+	public String loadNavBar() {
+		return "navbar";
+
+	}
 
 	@GetMapping("/appointment")
 	public String loadAppointmentManager(Model model) {

@@ -27,28 +27,9 @@
 </head>
 
 <body>
-
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-		<a class="navbar-brand" href="#">Appointment Management</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarCollapse" aria-controls="navbarCollapse"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-				<li class="nav-item active"><a class="nav-link" href="/appointment">Appointment
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="/ho"">Hospitals</a></li>
-				<li class="nav-item"><a class="nav-link disabled" href="#">Patients</a>
-				</li>
-				<li class="nav-item"><a class="nav-link disabled" href="#">Doctors</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+<div th:replace="fragments/navbar :: topbar">
+</div>
+	
 
 	<main role="main" class="container md">
 	
@@ -58,28 +39,22 @@
 
 
 	</main>
+	
+<div th:replace="footer :: footer">
+</div>	
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+<!-- 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<!-- 	<script>
-		window.jQuery
-				|| document
-						.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-	</script> -->
+		crossorigin="anonymous"></script> -->
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
-		src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
-	<script
 		src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
-
-	<script type="text/javascript" th:src="@{/js/appointment.js}" /></script>
 
 
 
