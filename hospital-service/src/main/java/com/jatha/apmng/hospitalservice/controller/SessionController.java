@@ -20,70 +20,58 @@ import com.jatha.apmng.hospitalservice.service.DoctorScheduleService;
 @RestController
 @RequestMapping(value = "/hosservices")
 public class SessionController {
-	
+
 	@Autowired
 	DoctorScheduleService doctorScheduleService;
-	
+
 	@PostMapping("/doctorSchedules")
-    public DoctorSchedules saveVisitingDoctor(@RequestBody DoctorSchedules doctorSchedules) {
-		
+	public DoctorSchedules saveVisitingDoctor(@RequestBody DoctorSchedules doctorSchedules) {
 		return doctorScheduleService.save(doctorSchedules);
-    }
-	
+	}
+
 	@GetMapping("/doctorSchedules")
 	public List<DoctorSchedules> findAllDoctorSchedules() {
-		
+
 		return doctorScheduleService.findAll();
 	}
-	
+
 	@GetMapping(value = "/doctorSchedules/{id}")
-	public Optional<DoctorSchedules> findDoctorSchedulesById(@PathVariable(value="id") int id) {
-		
+	public Optional<DoctorSchedules> findDoctorSchedulesById(@PathVariable(value = "id") int id) {
+
 		return doctorScheduleService.findById(id);
-		
+
 	}
-	
+
 	@DeleteMapping("/doctorSchedules/{id}")
-    public ResponseEntity<?> deleteHospital(@PathVariable("id") int id){
-        return doctorScheduleService.deleteDoctorSchedules(id);
-    }
-	
-	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}")
-	public List<DoctorSchedules> findByHosRegNoAndDocRegNo(
-			@PathVariable("hosRegNo") String hosRegNo, 
-			@PathVariable("docRegNo") String docRegNo){
-		return doctorScheduleService.findByHosRegNoAndDocRegNo(hosRegNo, docRegNo);
-		
+	public ResponseEntity<?> deleteHospital(@PathVariable("id") int id) {
+		return doctorScheduleService.deleteDoctorSchedules(id);
 	}
-	
+
+	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}")
+	public List<DoctorSchedules> findByHosRegNoAndDocRegNo(@PathVariable("hosRegNo") String hosRegNo,
+			@PathVariable("docRegNo") String docRegNo) {
+		return doctorScheduleService.findByHosRegNoAndDocRegNo(hosRegNo, docRegNo);
+
+	}
+
 	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}/{date}")
-	public List<DoctorSchedules> findByHosRegNoAndDocRegNoAndDate(
-			@PathVariable("hosRegNo") String hosRegNo, 
-			@PathVariable("docRegNo") String docRegNo, 
-			@PathVariable("date") Date date
-			){
+	public List<DoctorSchedules> findByHosRegNoAndDocRegNoAndDate(@PathVariable("hosRegNo") String hosRegNo,
+			@PathVariable("docRegNo") String docRegNo, @PathVariable("date") Date date) {
 		return doctorScheduleService.findByHosRegNoAndDocRegNoAndDate(hosRegNo, docRegNo, date);
 	}
-	
-	
+
 	@GetMapping("/doctorSchedules/{hosRegNo}/{docRegNo}/{date}/{session}")
 	public Optional<DoctorSchedules> findByHosRegNoAndDocRegNoAndDateAndSession(
-			@PathVariable("hosRegNo") String hosRegNo, 
-			@PathVariable("docRegNo") String docRegNo, 
-			@PathVariable("date") Date date,
-			@PathVariable("session") String session
-			){
+			@PathVariable("hosRegNo") String hosRegNo, @PathVariable("docRegNo") String docRegNo,
+			@PathVariable("date") Date date, @PathVariable("session") String session) {
 		return doctorScheduleService.findByHosRegNoAndDocRegNoAndDateAndSession(hosRegNo, docRegNo, date, session);
 	}
-	
+
 	@DeleteMapping("/doctorSchedules/{hosRegNo}/{docRegNo}/{date}/{session}")
-    public ResponseEntity<?> deleteHospitalByResource(
-    		@PathVariable("hosRegNo") String hosRegNo, 
-			@PathVariable("docRegNo") String docRegNo, 
-			@PathVariable("date") Date date,
-			@PathVariable("session") String session
-    		){
-        return doctorScheduleService.deleteDoctorSchedulesByResource(hosRegNo, docRegNo, date, session);
-    }
+	public ResponseEntity<?> deleteHospitalByResource(@PathVariable("hosRegNo") String hosRegNo,
+			@PathVariable("docRegNo") String docRegNo, @PathVariable("date") Date date,
+			@PathVariable("session") String session) {
+		return doctorScheduleService.deleteDoctorSchedulesByResource(hosRegNo, docRegNo, date, session);
+	}
 
 }

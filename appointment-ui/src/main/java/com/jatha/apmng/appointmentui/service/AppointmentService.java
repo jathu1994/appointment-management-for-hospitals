@@ -34,8 +34,14 @@ public interface AppointmentService {
 	ResponseEntity<?> loadSession(String hosRegNo, String docRegNo, Date sDate, String sSession);
 
 	ResponseEntity<?> loadVisitDetailsByHosAndDoc(String hosRegNo, String docRegNo);
+	
+//	ResponseEntity<?> loadHospitalByStaffUserName(String userName);
 
 	Appointment saveAppointment(Appointment appointment);
+
+	ResponseEntity<?> loadHospitalByUserName();
+
+//	String loadHospitalByUser();
 
 	
 	

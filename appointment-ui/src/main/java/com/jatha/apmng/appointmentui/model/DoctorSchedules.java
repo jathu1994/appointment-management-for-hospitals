@@ -77,6 +77,14 @@ public class DoctorSchedules implements Serializable {
 	public void setTotalBookings(int totalBookings) {
 		this.totalBookings = totalBookings;
 	}
+	@Override
+	public String toString() {
+		return "DoctorSchedules [id=" + id + ", docRegNo=" + docRegNo + ", hosRegNo=" + hosRegNo + ", date=" + date
+				+ ", session=" + session + ", expectedArrival=" + expectedArrival + ", status=" + status
+				+ ", currentAppointmentNumber=" + currentAppointmentNumber + ", totalBookings=" + totalBookings + "]";
+	}
+	
+	
 	
 	
 	

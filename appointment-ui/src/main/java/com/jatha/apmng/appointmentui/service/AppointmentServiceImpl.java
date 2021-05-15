@@ -20,6 +20,7 @@ import com.jatha.apmng.appointmentui.model.Appointment;
 import com.jatha.apmng.appointmentui.model.Doctor;
 import com.jatha.apmng.appointmentui.model.DoctorSchedules;
 import com.jatha.apmng.appointmentui.model.Hospital;
+import com.jatha.apmng.appointmentui.model.HospitalStaff;
 import com.jatha.apmng.appointmentui.model.Patient;
 import com.jatha.apmng.appointmentui.model.VisitingDoctors;
 
@@ -30,33 +31,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	AccessToken accessToken;
-
-//	@Override
-//	public List<Hospital> loadAllHospitals() {
-//		HttpHeaders httpHeaders = new HttpHeaders();
-//		httpHeaders.add("Authorization", accessToken.getAccessToken());
-//
-//		HttpEntity<Hospital> request = new HttpEntity<>(httpHeaders);
-//		List<Hospital> list = null;
-//		try {
-//			ResponseEntity<Hospital[]> responseEntity = restTemplate.exchange(
-//					"http://localhost:2020/appointment-api/aptservice/hospitals", HttpMethod.GET, request,
-//					Hospital[].class);
-//
-//			list = Arrays.asList(responseEntity.getBody());
-//			if(list.size()==0) {
-//				
-//				throw new DataNotFoundException("No Hospitals available");
-//				
-//			}
-//
-//		} catch (HttpStatusCodeException e) {
-//			
-//			throw new RMIException(e.getMessage());
-//		}
-//		return list;
-//
-//	}
 
 	@Override
 	public ResponseEntity<?> loadAllHospitals() {
@@ -348,17 +322,78 @@ public class AppointmentServiceImpl implements AppointmentService {
 			ResponseEntity<Appointment> responseEntity = restTemplate.exchange(
 					"http://localhost:2020/appointment-api/aptservice/appointments", HttpMethod.POST, request,
 					Appointment.class);
-
+			
 			if (responseEntity.getBody() == null) {
 				throw new DataNotFoundException("Can't save your appointment");
 
 			}
+			
+			System.out.println(appointment.getSessionId());
+			
+			HttpEntity<VisitingDoctors> request2 = new HttpEntity<>(httpHeaders);
+			
+			ResponseEntity<DoctorSchedules> responseEntity2 = restTemplate.exchange(
+					"http://localhost:2020/hospital-api/hosservices/doctorSchedules/"+appointment.getSessionId(),
+					HttpMethod.GET, request2, DoctorSchedules.class);
+			
+			if (responseEntity2.getBody() == null) {
+				throw new DataNotFoundException("Can't save your appointment");
+
+			}
+			DoctorSchedules ds = responseEntity2.getBody();
+			
+			HttpEntity<DoctorSchedules> request3 = new HttpEntity<>(ds, httpHeaders);
+			
+			ds.setCurrentAppointmentNumber(ds.getCurrentAppointmentNumber()+1);
+			
+			ResponseEntity<DoctorSchedules> responseEntity3 = restTemplate.exchange(
+					"http://localhost:2020/hospital-api/hosservices/doctorSchedules", HttpMethod.POST, request3,
+					DoctorSchedules.class);
+			
+			if (responseEntity3.getBody() == null) {
+				throw new DataNotFoundException("Can't save your appointment");
+
+			}
+
+			
 			return responseEntity.getBody();
 
 		} catch (HttpStatusCodeException e) {
 			throw new RMIException(
 					"oops...some thing went wrong saving appointment details to appointment service....\n"
 							+ e.getMessage());
+
+		}
+		
+		
+		
+		
+	}
+	
+	
+	@Override
+	public ResponseEntity<?> loadHospitalByUserName() {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Authorization", accessToken.getAccessToken());
+		
+		String userName= accessToken.getLoggedUser();
+
+		HttpEntity<HospitalStaff> request = new HttpEntity<>(httpHeaders);
+
+		try {
+			ResponseEntity<HospitalStaff[]> responseEntity = restTemplate.exchange(
+					"http://localhost:2020/appointment-api/aptservice/staffs?userName=" + userName, HttpMethod.GET,
+					request, HospitalStaff[].class);
+
+			if (responseEntity.getBody() == null) {
+				throw new DataNotFoundException("System error try reloading the page or sign in again");
+
+			}
+			return responseEntity;
+
+		} catch (HttpStatusCodeException e) {
+			throw new RMIException(
+					"oops...some thing went wrong loading hospital details reload or sign in again....\n" + e.getMessage());
 
 		}
 	}

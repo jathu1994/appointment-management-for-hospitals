@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Appointment Service</title>
+
+<!-- Bootstrap core CSS -->
+<link
+	href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+	
+	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: topbar"></div>
+
+	<main role="main" class="container md">
+
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Manage Session</h1>
+				<hr>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<!-- create-appointment begin  -->
+			<div class="col-md-6">
+				<form name="create-appointment" th:action="@{/session}"
+					th:object="${doctorSchedules}" method="post">
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="hospitalName">Hospital Name:</label> <input
+								type="text" class="form-control" id="hospitalName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="hospitalRegNo" class="form-label">Hospital
+								Reg No:</label> <input type="text" class="form-control"
+								id="hospitalRegNo" th:field="*{hosRegNo}" readonly>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="doctorName">Doctor Name:</label> <input type="text"
+								class="form-control" id="doctorName" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="doctorRegNo" class="form-label">Doctor RegNo:</label>
+							<input class="form-control" list="doctorList" id="doctorRegNo"
+								placeholder="serach by name or regNo..." th:field="*{docRegNo}">
+							<datalist id="doctorList">
+							</datalist>
+						</div>
+					</div>
+
+					<div class="row">
+						
+						<div class="form-group col-md-6">
+							<label for="sessionDate">Date:</label> <input type="text"
+								class="form-control" id="sessionDate" name="date"  />
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="session" class="form-label">session:</label> <input
+								class="form-control" list="sessionList" id="session"
+								placeholder="serach by name or regNo..." th:field="*{session}">
+							<datalist id="sessionList">
+								<option value="Morning">
+								<option value="AfterNoon">
+								<option value="Evening">
+							</datalist>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="expectedArrival">Expected Arrival:</label> <input
+								type="text" class="form-control" id="expectedArrivalPicker">
+						</div>
+						<input class="form-control" id="expectedArrival" th:field="*{expectedArrival}" type="hidden">
+						<div class="form-group col-md-6">
+							<label for="totalBookings">Total Bookings:</label> <input
+								type="text" class="form-control" id="totalBookings"
+								th:field="*{totalBookings}">
+						</div>
+						<input class="form-control" id="sessionId" th:field="*{id}" type="hidden">
+						<input class="form-control" id="currentAppointmentNumber"
+							name="currentAppointmentNumber" type="hidden" value=0> <input
+							class="form-control" id="status" name="status" type="hidden"
+							value="active">
+					</div>
+					
+				
+					<button type="submit" class="btn btn-primary" id="btnAddSession">Add
+						New Session</button>
+					<button class="btn btn-danger" id="btnCancelSession" hidden="true">Cancel</button>
+					<button class="btn btn-danger"
+						sec:authorize="hasRole('ROLE_super_admin')" disabled
+						id="btnDeleteSession">Delete</button>
+				</form>
+			</div>
+			<!-- create-appointment end  -->
+
+
+
+			<div class="jumbotron col-md-6">
+
+				<!-- error table  -->
+				<div th:unless="${error==null}">
+
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Error Code</th>
+								<th scope="col">Body</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><span th:text="${error.statusCode}"></span></td>
+								<td><span th:text="${error.body}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+
+				</div>
+
+				<!-- #error table  -->
+
+				<div id="infoTableSpace"></div>
+
+
+			</div>
+
+		</div>
+	</main>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" th:src="@{./js/doctorsession.js}" /></script>
+	<script type="text/javascript" th:src="@{./js/navbar.js}" /></script>
+	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+
+</body>
+</html>

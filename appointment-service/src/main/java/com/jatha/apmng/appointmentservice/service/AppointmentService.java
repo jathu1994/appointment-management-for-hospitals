@@ -10,6 +10,7 @@ import com.jatha.apmng.appointmentservice.model.AppointmentFullDetails;
 import com.jatha.apmng.appointmentservice.model.Doctor;
 import com.jatha.apmng.appointmentservice.model.DoctorSchedules;
 import com.jatha.apmng.appointmentservice.model.Hospital;
+import com.jatha.apmng.appointmentservice.model.HospitalStaff;
 import com.jatha.apmng.appointmentservice.model.Patient;
 import com.jatha.apmng.appointmentservice.model.VisitingDoctors;
 
@@ -52,6 +53,10 @@ public interface AppointmentService {
 
 	AppointmentFullDetails findAppointmentDetails(String nic, String docRegNo, String hosRegNo, String scheduleId,
 			String appointmentId, String visitId);
+
+	List<HospitalStaff> findHospitalByUserName(String userName);
+
+	DoctorSchedules updateNextAppointmentNumber(DoctorSchedules doctorSchedules);
 
 	
 

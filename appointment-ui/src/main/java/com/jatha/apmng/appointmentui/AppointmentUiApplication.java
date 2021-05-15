@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -21,11 +23,26 @@ public class AppointmentUiApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests()
-		.antMatchers("/")
-		.permitAll()
-		.anyRequest()
-		.authenticated();
+//		http.authorizeRequests()
+//		.antMatchers("/*")
+//		.permitAll()
+//		.anyRequest()
+//		.authenticated().and().logout().logoutSuccessUrl("/").permitAll();
+//		
+//		http.csrf().disable();
+		
+		
+		http
+        .authorizeRequests()
+        .antMatchers( "/").permitAll()
+        .anyRequest()
+        .authenticated()
+        .and().logout()
+        .invalidateHttpSession(true)
+        .clearAuthentication(true)
+        .deleteCookies("KSESSION","JSESSIONID")
+//        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+        .logoutSuccessUrl("/").permitAll();
 	}
 	
 

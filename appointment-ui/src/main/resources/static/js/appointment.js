@@ -1,4 +1,10 @@
+/*fuctions to be excuted on loading the page*/
 
+$(document).ready(function() {
+	changeActiveNavItem("#navAppointment");
+});
+
+/*loading all patients to dropdown list*/
 $(document).ready(function() {
 	$.ajax({
 		url: "/aptservice/patients",
@@ -24,8 +30,8 @@ $(document).ready(function() {
 	});
 });
 
-
-$(document).ready(function() {
+/*loading all hospitals to drop down list*/
+/*$(document).ready(function() {
 	$.ajax({
 		url: "/aptservice/hospitals",
 		success: function(response) {
@@ -47,7 +53,58 @@ $(document).ready(function() {
 
 		}
 	});
+});*/
+
+
+$(document).ready(function() {
+	var hosRegNo = "";
+	$.ajax({
+		url: "/aptservice/staffs",
+		success: function(response) {
+			console.log(response);
+			console.log(response[0]['hosRegNo']);
+			$("#hospitalRegNo").val(response[0]['hosRegNo']);
+			hosRegNo = response[0]['hosRegNo'];
+			$("#hospitalRegNo").trigger("change");
+
+		},
+		error: function(jqxhr) {
+			var t1 = "<table class='table'><thead><tr><th scope='col'>Error Code</th><th scope='col'>Info</th></tr></thead><tbody><tr><td><span>" + jqxhr.status + "</span></td><td><span>" + jqxhr.responseText + "</span></td></tr></tbody></table>"
+			$("#infoTableSpace").empty();
+			$("#infoTableSpace").append(t1);
+
+		}
+	});
+	
+	/*$.ajax({
+		url: "/aptservice/doctors?hosRegNo=" + hosRegNo,
+		success: function(response) {
+			console.log("success");
+			console.log(response);
+			var len = response.length;
+			$("#doctorRegNo").val('');
+			$("#doctorList").empty();
+
+			for (var i = 0; i < len; i++) {
+				var regNo = response[i]['regNo'];
+				var firstName = response[i]['firstName'];
+				$("#doctorList").append("<option value='" + regNo + "'>" + firstName + "</option>");
+				$("#doctorRegNo").prop("disabled", false);
+
+			}
+
+		},
+		error: function(jqxhr) {
+			var t1 = "<table class='table'><thead><tr><th scope='col'>Error Code</th><th scope='col'>Info</th></tr></thead><tbody><tr><td><span>" + jqxhr.status + "</span></td><td><span>" + jqxhr.responseText + "</span></td></tr></tbody></table>"
+			$("#infoTableSpace").empty();
+			$("#infoTableSpace").append(t1);
+
+		}
+	});*/
 });
+
+
+/*other functions*/
 
 $("#patientNIC").change(function() {
 	console.log("reached");
@@ -146,7 +203,7 @@ $("#doctorRegNo").change(function() {
 				for (var i = 0; i < len; i++) {
 					var date = response[i]['date'];
 					var session = response[i]['session'];
-					var totalBookings = response[i]['totalBookings'];
+					var totalBookings = response[i]['currentAppointmentNumber'];
 					var expectedArrival = response[i]['expectedArrival'];
 
 					var t3 = "<tr><td><span>" + date + "</span></td><td><span>" + session + "</span></td><td><span>" + totalBookings + "</span></td><td><span>" + expectedArrival + "</span></td></tr>";
@@ -238,7 +295,7 @@ $("#appointmentDate").change(function() {
 				for (var i = 0; i < len; i++) {
 					var date = response[i]['date'];
 					var session = response[i]['session'];
-					var totalBookings = response[i]['totalBookings'];
+					var totalBookings = response[i]['currentAppointmentNumber'];
 					var expectedArrival = response[i]['expectedArrival'];
 
 					var t3 = "<tr><td><span>" + date + "</span></td><td><span>" + session + "</span></td><td><span>" + totalBookings + "</span></td><td><span>" + expectedArrival + "</span></td></tr>";
@@ -277,7 +334,7 @@ $("#session").change(function() {
 	console.log(sSession);
 	console.log("reached");
 	$.ajax({
-		url: "/aptservice/sessions?hosRegNo=" + hosRegNo + "&docRegNo=" + docRegNo + "&sDate=" + sDate + "&sSession=" + sSession, 
+		url: "/aptservice/sessions?hosRegNo=" + hosRegNo + "&docRegNo=" + docRegNo + "&sDate=" + sDate + "&sSession=" + sSession,
 		success: function(response) {
 			console.log("success");
 			console.log(response);
@@ -286,7 +343,7 @@ $("#session").change(function() {
 			$("#sessionId").val('');
 			$("#sessionId").val(response[0]['id']);
 			$("#appointmentNumber").val('');
-			$("#appointmentNumber").val(response[0]['totalBookings'] + 1);
+			$("#appointmentNumber").val(response[0]['currentAppointmentNumber'] + 1);
 			$("#appointmentStatus").val('');
 			$("#appointmentStatus").val('active');
 
@@ -296,7 +353,7 @@ $("#session").change(function() {
 				for (var i = 0; i < len; i++) {
 					var date = response[i]['date'];
 					var session = response[i]['session'];
-					var totalBookings = response[i]['totalBookings'];
+					var totalBookings = response[i]['currentAppointmentNumber'];
 					var expectedArrival = response[i]['expectedArrival'];
 
 					var t3 = "<tr><td><span>" + date + "</span></td><td><span>" + session + "</span></td><td><span>" + totalBookings + "</span></td><td><span>" + expectedArrival + "</span></td></tr>";
@@ -317,10 +374,39 @@ $("#session").change(function() {
 		},
 		error: function(jqxhr) {
 			var t1 = "<table class='table'><thead><tr><th scope='col'>Error Code</th><th scope='col'>Info</th></tr></thead><tbody><tr><td><span>" + jqxhr.status + "</span></td><td><span>" + jqxhr.responseText + "</span></td></tr></tbody></table>"
-				$("#infoTableSpace").empty();
-				$("#infoTableSpace").append(t1);
+			$("#infoTableSpace").empty();
+			$("#infoTableSpace").append(t1);
 
 		}
 	});
 });
+
+
+function loadDoctors(hosRegNo) {
+	
+	$.ajax({
+		url: "/aptservice/doctors?hosRegNo=" + hosRegNo,
+		success: function(response) {
+			console.log("success");
+			console.log(response);
+			var len = response.length;
+			$("#doctorRegNo").val('');
+			$("#doctorList").empty();
+
+			for (var i = 0; i < len; i++) {
+				var regNo = response[i]['regNo'];
+				var firstName = response[i]['firstName'];
+				$("#doctorList").append("<option value='" + regNo + "'>" + firstName + "</option>");
+
+			}
+
+		},
+		error: function(jqxhr) {
+			var t1 = "<table class='table'><thead><tr><th scope='col'>Error Code</th><th scope='col'>Info</th></tr></thead><tbody><tr><td><span>" + jqxhr.status + "</span></td><td><span>" + jqxhr.responseText + "</span></td></tr></tbody></table>"
+			$("#infoTableSpace").empty();
+			$("#infoTableSpace").append(t1);
+
+		}
+	});
+}
 

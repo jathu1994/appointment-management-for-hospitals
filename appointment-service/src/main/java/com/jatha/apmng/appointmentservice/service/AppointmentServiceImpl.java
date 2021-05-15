@@ -21,6 +21,7 @@ import com.jatha.apmng.appointmentservice.model.AppointmentFullDetails;
 import com.jatha.apmng.appointmentservice.model.Doctor;
 import com.jatha.apmng.appointmentservice.model.DoctorSchedules;
 import com.jatha.apmng.appointmentservice.model.Hospital;
+import com.jatha.apmng.appointmentservice.model.HospitalStaff;
 import com.jatha.apmng.appointmentservice.model.Patient;
 import com.jatha.apmng.appointmentservice.model.VisitingDoctors;
 import com.jatha.apmng.appointmentservice.repository.AppointmentRepository;
@@ -168,7 +169,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return list;
 	}
 	
+	@Override
+	public DoctorSchedules updateNextAppointmentNumber(DoctorSchedules doctorSchedules) {
+		
+		System.out.println(doctorSchedules);
+		System.out.println(doctorSchedules.getId());
+		ResponseEntity<DoctorSchedules> response = restTemplate.postForEntity("http://hospital-service/hosservices/doctorSchedules", doctorSchedules, DoctorSchedules.class);
+		DoctorSchedules schedules = response.getBody();
+		System.out.println(schedules.getId());
+		return schedules;
+		
+		
+	}
+	
+	
+	
 	//---------------------------------------
+
+	
 
 	@Override
 	public List<Patient> findPatientById(String id) {
@@ -272,6 +290,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		
 		return ap;
+	}
+
+	@Override
+	public List<HospitalStaff> findHospitalByUserName(String userName) {
+		ResponseEntity<HospitalStaff> response = restTemplate.getForEntity("http://hospital-service/hosservices/staffs/"+userName,HospitalStaff.class);
+
+		HospitalStaff hospitalStaff = response.getBody();
+		
+		List<HospitalStaff> list = new ArrayList<HospitalStaff>();
+		list.add(hospitalStaff);
+				
+		return list;
 	}
 
 	

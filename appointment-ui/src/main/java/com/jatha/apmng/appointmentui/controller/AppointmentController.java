@@ -88,5 +88,19 @@ public class AppointmentController {
 
 		return appointmentService.loadVisitDetailsByHosAndDoc(hosRegNo, docRegNo);
 	}
+	
+//	@GetMapping("/staffs")
+//	public ResponseEntity<?> loadHospitalByUserName(
+//			@RequestParam(value = "userName", required = true) String userName
+//			) {
+//
+//		return appointmentService.loadHospitalByUserName(userName);
+//	}
+	
+	@GetMapping("/staffs")
+	public ResponseEntity<?> loadHospitalByUserName() {
+
+		return appointmentService.loadHospitalByUserName();
+	}
 
 }
